@@ -8,6 +8,6 @@ it('renders without crashing', async () => {
   ReactDOM.render(
     <MemoryRouter>
       <App />
-    </MemoryRouter>, div);ьз
+    </MemoryRouter>, div);
   await new Promise(resolve => setTimeout(resolve, 1000));
 });

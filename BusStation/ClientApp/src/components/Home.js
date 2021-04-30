@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { getRoutes } from "../API/routesApi";
+import  MyAppBar from "../components/MyAppBar.jsx"
 
 export const Home = () => {
   const [routes, setRoutes] = useState([]);
@@ -23,6 +24,7 @@ export const Home = () => {
             </div>
           ))
         }
-      </div>
+      <MyAppBar></MyAppBar>
+      </div>     
     );
 }

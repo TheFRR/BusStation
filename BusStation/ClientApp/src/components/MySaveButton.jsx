@@ -14,7 +14,7 @@ export default function IconLabelButtons() {
   const classes = useStyles();
 
   return (
-      <div align="right">
+      <div>
       <Button
         variant="contained"
         color="primary"

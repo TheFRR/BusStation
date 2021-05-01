@@ -7,7 +7,11 @@ import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Link from '@material-ui/core/Link';
 import { useHistory } from "react-router-dom";
+
+import "../custom.css"
+import { setOriginalNode } from 'typescript';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -23,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function MenuAppBar() {
   const classes = useStyles();
-  const [auth, setAuth] = React.useState(true);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -32,17 +35,17 @@ export default function MenuAppBar() {
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setAnchorEl(this);
   };
 
   const history = useHistory();
   const navigateToLogin = () => {
     history.push('/login');
-    setAnchorEl(this);
+    setAnchorEl(null);
   }
   const navigateToRegistartion = () => {
     history.push('/register');
-    setAnchorEl(this);
+    setAnchorEl(null);
   }
   const navigateToMain = () => history.push('/');
 
@@ -50,11 +53,10 @@ export default function MenuAppBar() {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"></IconButton>
           <Typography variant="h6" className={classes.title} onClick={navigateToMain}>
-            Автовокзал
+            <a id="href" href="/" color="white">Автовокзал</a>
           </Typography>
-          {auth && (
+          {(
             <div>
               <IconButton
                 aria-label="account of current user"

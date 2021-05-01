@@ -63,7 +63,6 @@ const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge
               id="email"
               label="Электронная почта"
               name="email"
-              autoFocus
               value={email}
               onChange={onEmailChange}
             />

@@ -52,7 +52,7 @@ const Register = ({onSigninSubmit, email, onEmailChange, password, onPasswordCha
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Зарегистриуйте аккаунт!
+            Покупайте билеты онлайн - зарегистриуйте аккаунт!
           </Typography>
           <form className={classes.form} onSubmit={onSigninSubmit} noValidate>
             <TextField
@@ -63,7 +63,6 @@ const Register = ({onSigninSubmit, email, onEmailChange, password, onPasswordCha
               id="email"
               label="Электронная почта"
               name="email"
-              autoFocus
               value={email}
               onChange={onEmailChange}
             />

@@ -1,6 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import { getRoutes } from "../API/routesApi";
-import  MyAppBar from "../components/MyAppBar.jsx"
+import MyRoutesTable from "../components/MyRoutesTable.jsx"
+import MyRouteForm from "../components/MyRouteForm.jsx"
+import MyButtonForTable from "../components/MyButtonsForTable.jsx"
+import "../custom.css"
 
 export const Home = () => {
   const [routes, setRoutes] = useState([]);
@@ -13,18 +16,11 @@ export const Home = () => {
   }, [])
     return (
       <div>
-        {
-          routes.map((route) => (
-            <div>
-              <p>Номер: {route.id}</p>
-              <p>Пункт отправления: {route.departure}</p> 
-              <p>Пункт прибытия: {route.arrival}</p> 
-              <p>Время в пути: {route.travelTime}</p> 
-              <br></br>
-            </div>
-          ))
-        }
-      <MyAppBar></MyAppBar>
+      <h3 align="center">Список маршрутов</h3>
+      <MyRoutesTable></MyRoutesTable>
+      <MyButtonForTable></MyButtonForTable>
+      <h3 align="center">Создание маршрута</h3>
+      <div align="center"><MyRouteForm></MyRouteForm></div>
       </div>     
     );
 }

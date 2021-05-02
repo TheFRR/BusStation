@@ -1,8 +1,9 @@
 import React, { useState, useEffect} from 'react';
 import { getRoutes } from "../API/routesApi";
-import MyRoutesTable from "../components/MyRoutesTable.jsx"
-import MyRouteForm from "../components/MyRouteForm.jsx"
-import MyButtonForTable from "../components/MyButtonsForTable.jsx"
+import MyFlightSearchForm from './MyFlightSearchForm'
+import MyInfoList from './MyInfoList'
+import MyNewsList from './MyNewsList'
+import Grid from '@material-ui/core/Grid';
 import "../custom.css"
 
 export const Home = () => {
@@ -16,11 +17,13 @@ export const Home = () => {
   }, [])
     return (
       <div>
-      <h3 align="center">Список маршрутов</h3>
-      <MyRoutesTable></MyRoutesTable>
-      <MyButtonForTable></MyButtonForTable>
-      <h3 align="center">Создание маршрута</h3>
-      <div align="center"><MyRouteForm></MyRouteForm></div>
-      </div>     
+        <div style={{ backgroundColor: 'lightsteelblue', alignContent: 'center' }} >
+            <MyFlightSearchForm></MyFlightSearchForm>
+        </div>
+        <Grid container style={{ display: 'flex', justifyContent: 'center' }}>
+            <MyInfoList></MyInfoList>
+            <MyNewsList></MyNewsList>
+        </Grid>
+      </div>   
     );
 }

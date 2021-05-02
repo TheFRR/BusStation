@@ -19,7 +19,7 @@ export default function FormPropsTextFields() {
 
   return (
     <form className={classes.root} noValidate autoComplete="off">
-      <div style={{ width: '80%', margin: 'auto' }}>
+      <div style={{ margin: '0 auto' }}>
         <TextField
           id="outlined-required"
           label="Пункт отправки"

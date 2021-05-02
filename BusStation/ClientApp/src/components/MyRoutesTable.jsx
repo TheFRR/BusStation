@@ -3,9 +3,9 @@ import { DataGrid } from '@material-ui/data-grid';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'arrival', headerName: 'Пункт отправки', width: 200, editable: true },
-  { field: 'departure', headerName: 'Пункт прибытия', width: 200, editable: true },
-  { field: 'tripTime', headerName: 'Время в пути (мин)', width: 200, editable: true },
+  { field: 'arrival', headerName: 'Пункт отправки', width: 200, editable: false },
+  { field: 'departure', headerName: 'Пункт прибытия', width: 200, editable: false },
+  { field: 'tripTime', headerName: 'Время в пути (мин)', width: 200, editable: false },
 ];
 
 const rows = [

@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import { AccessTime, AddLocation, Phone, Report } from '@material-ui/icons';
+import { Report } from '@material-ui/icons';
 
 const useStyles = makeStyles((theme) => ({
   root: {

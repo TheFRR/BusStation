@@ -2,10 +2,12 @@ import * as React from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 
 const columns = [
-  { field: 'id', headerName: 'Номер маршрута', width: 70 },
-  { field: 'arrival', headerName: 'Пункт отправки', width: 200, editable: false },
-  { field: 'departure', headerName: 'Пункт прибытия', width: 200, editable: false },
-  { field: 'tripTime', headerName: 'Время в пути (мин)', width: 200, editable: false },
+  { field: 'id', headerName: 'ID', width: 70 },
+  { field: 'route', headerName: 'Маршрут', width: 200, editable: false },
+  { field: 'departureTime', headerName: 'Время отправления', width: 200, editable: false },
+  { field: 'arrivalTime', headerName: 'Время прибытия', width: 200, editable: false },
+  { field: 'busySeats', headerName: 'Занято мест', width: 200, editable: false },
+  { field: 'seats', headerName: 'Всего мест', width: 200, editable: false }
 ];
 
 const rows = [

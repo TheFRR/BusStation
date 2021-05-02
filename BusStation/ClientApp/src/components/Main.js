@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React from 'react';
 import MyFlightSearchForm from '../components/MyFlightSearchForm'
 import MyInfoList from '../components/MyInfoList'
 import MyNewsList from '../components/MyNewsList'
@@ -8,10 +8,10 @@ import "../custom.css"
 export const Main = () => {
     return (
       <div>
-        <div style={{ backgroundColor: 'lightsteelblue'}} >
+        <div style={{ backgroundColor: 'lightsteelblue', alignContent: 'center' }} >
             <MyFlightSearchForm></MyFlightSearchForm>
         </div>
-        <Grid container justify="flex-end">
+        <Grid container style={{ display: 'flex', justifyContent: 'center' }}>
             <MyInfoList></MyInfoList>
             <MyNewsList></MyNewsList>
         </Grid>

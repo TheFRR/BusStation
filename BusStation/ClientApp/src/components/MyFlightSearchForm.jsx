@@ -22,12 +22,12 @@ export default function FormPropsTextFields() {
   const classes = useStyles();
 
   return (
-    <form className={classes.root} noValidate autoComplete="off">
-      <div style={{  width: '40%', margin: 'auto', backgroundColor: 'lightsteelblue', padding: '15px' }}>
-        <h5 style={{marginLeft: '5px'}}>Купить билет на автобус</h5>
-        <TextField label="Пункт отправления" type="search"/>
-        <TextField label="Пункт прибытия" type="search"/>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+    <form noValidate autoComplete="off" style={{  width: '300px', margin: '0 auto', 
+    backgroundColor: 'lightsteelblue', paddingTop: '15px', paddingBottom: '15px' }}>
+        <h5 style={{textAlign: 'center'}}>Купить билет на автобус</h5>
+        <TextField label="Пункт отправления" type="search" style={{width: '100%'}}/>
+        <TextField label="Пункт прибытия" type="search" style={{width: '100%'}}/>
+        <MuiPickersUtilsProvider utils={DateFnsUtils} >
             <KeyboardDatePicker
                 disableToolbar
                 variant="inline"
@@ -38,12 +38,12 @@ export default function FormPropsTextFields() {
                 KeyboardButtonProps={{
                     'aria-label': 'change date',
                 }}
+                style={{width: '100%'}}
             />
         </MuiPickersUtilsProvider>
         <Button size="medium"
         color="primary" 
-        variant="contained" style={{display: 'flex', marginTop:'5px', marginLeft: '5px'}}>Найти</Button>
-      </div>
+        variant="contained" style={{ display: 'flex', marginTop:'5px' }}>Найти</Button>
     </form>
   );
 }

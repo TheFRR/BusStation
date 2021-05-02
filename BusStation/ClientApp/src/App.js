@@ -4,6 +4,7 @@ import { Home } from './components/Home';
 import { Login } from './components/Login'
 import { Register } from './components/Register'
 import { Main } from './components/Main'
+import { BuyTicket } from './components/BuyTicket'
 import MyAppBar from "./components/MyAppBar"
 
 import './custom.css'
@@ -20,6 +21,7 @@ export default class App extends Component {
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
         <Route path='/main' component={Main} />
+        <Route path='/buy' component={BuyTicket} />
       </Switch>  
     </>
     )

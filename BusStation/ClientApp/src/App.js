@@ -21,7 +21,7 @@ export default class App extends Component {
         <Route exact path='/' component={Home} />
         <Route path='/login' component={Login} />
         <Route path='/register' component={Register} />
-        <Route path='/routes' component={UpdateRoute} />
+        <Route path='/route' component={UpdateRoute} />
         <Route path='/buy' component={BuyTicket} />
         <Route path='/flight' component={UpdateFlight} />
       </Switch>  

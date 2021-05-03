@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import MyFlightTable from "./MyFlightTable"
+import MyFlightTable from "../components/MyFlightTable"
 
 import "../custom.css"
 

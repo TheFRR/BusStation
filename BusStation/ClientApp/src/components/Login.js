@@ -1,5 +1,5 @@
 import React from 'react';
-import MyLoginForm from '../components/MyLoginForm.jsx'
+import MyLoginForm from '../components/MyLoginForm'
 
 import "../custom.css"
 

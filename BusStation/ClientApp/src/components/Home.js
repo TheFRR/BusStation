@@ -1,8 +1,8 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { getRoutes } from "../API/routesApi";
-import MyFlightSearchForm from './MyFlightSearchForm'
-import MyInfoList from './MyInfoList'
-import MyNewsList from './MyNewsList'
+import MyFlightSearchForm from '../components/MyFlightSearchForm'
+import MyInfoList from '../components/MyInfoList'
+import MyNewsList from '../components/MyNewsList'
 import Grid from '@material-ui/core/Grid';
 import "../custom.css"
 

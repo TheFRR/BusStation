@@ -1,5 +1,5 @@
 import React from 'react';
-import MyFlightSearchForm from '../components/MyFlightSearchForm.jsx'
+import MyFlightSearchForm from '../components/MyFlightSearchForm'
 import MyTicketCard from '../components/MyTicketCard'
 import MyNewsList from '../components/MyNewsList'
 import Grid from '@material-ui/core/Grid';

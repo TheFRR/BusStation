@@ -1,6 +1,6 @@
 import React from 'react';
-import MyRoutesTable from "./MyRoutesTable.jsx"
-import MyRouteForm from "./MyRouteForm.jsx"
+import MyRoutesTable from "../components/MyRoutesTable"
+import MyRouteForm from "../components/MyRouteForm"
 import Button from '@material-ui/core/Button';
 import "../custom.css"
 

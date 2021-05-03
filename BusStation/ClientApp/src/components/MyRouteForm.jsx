@@ -20,6 +20,11 @@ export default function FormPropsTextFields() {
   return (
     <form className={classes.root} noValidate autoComplete="off">
       <div style={{ margin: '0 auto' }}>
+      <TextField
+          id="outlined-password-input"
+          label="Номер маршрута"
+          variant="outlined"
+        />
         <TextField
           id="outlined-required"
           label="Пункт отправки"
@@ -29,12 +34,7 @@ export default function FormPropsTextFields() {
           id="outlined-disabled"
           label="Пункт прибытия"
           variant="outlined"
-        />
-        <TextField
-          id="outlined-password-input"
-          label="Время в пути (мин)"
-          variant="outlined"
-        />
+        />       
         <MySaveButton></MySaveButton>
       </div>
     </form>

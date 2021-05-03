@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-  },  paper: {
+  }, paper: {
     margin: theme.spacing(8, 4),
     display: 'flex',
     flexDirection: 'column',
@@ -31,7 +31,7 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%', 
+    width: '100%',
     marginTop: theme.spacing(1),
   },
   submit: {
@@ -39,7 +39,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Register = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge}) => {
+const Register = ({ onSigninSubmit, email, onEmailChange, password, onPasswordChahge }) => {
   const classes = useStyles();
 
   return (

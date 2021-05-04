@@ -35,11 +35,9 @@ namespace DAL.Repository
             return 1;
         }
 
-        public async Task<int> Update(Route route)
+        public void Update(Route route)
         {
-            Route rt = await db.Route.FindAsync(route.Id);
-            db.Entry(rt).CurrentValues.SetValues(route);
-            return 1;
+            db.Entry(route).State = EntityState.Modified;
         }
 
         public void Delete(int id)

@@ -34,11 +34,9 @@ namespace DAL.Repository
             return 1;
         }
 
-        public async Task<int> Update(User user)
+        public void Update(User user)
         {
-            var usr = await db.User.FindAsync(user);
-            db.Entry(usr).CurrentValues.SetValues(user);
-            return 1;
+            db.Entry(user).State = EntityState.Modified;
         }
 
         public void Delete(int id)

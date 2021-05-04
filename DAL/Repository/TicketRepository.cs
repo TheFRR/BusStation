@@ -34,11 +34,9 @@ namespace DAL.Repository
             return 1;
         }
 
-        public async Task<int> Update(Ticket ticket)
+        public void Update(Ticket ticket)
         {
-            var tkt = await db.Ticket.FindAsync(ticket);
-            db.Entry(tkt).CurrentValues.SetValues(ticket);
-            return 1;
+            db.Entry(ticket).State = EntityState.Modified;
         }
 
         public void Delete(int id)

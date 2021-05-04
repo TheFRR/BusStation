@@ -10,7 +10,7 @@ namespace DAL.Interfaces
         Task<List<T>> GetAll();
         Task<T> Get(int id);
         Task<int> Add(T item);
-        Task<int> Update(T item);
+        void Update(T item);
         void Delete(int id);
     }
 }

@@ -57,7 +57,7 @@ namespace BusStation.Controllers
             route);
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Route route)
         {
@@ -65,12 +65,16 @@ namespace BusStation.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var item = unitOfWork.Route.Get(id).Result;
+            var item = await unitOfWork.Route.Get(id);
+
             if (item == null)
             {
                 return NotFound();
             }
-            await unitOfWork.Route.Update(item);
+            item.Number = route.Number;
+            item.Arrival = route.Arrival;
+            item.Departure = route.Departure;
+            unitOfWork.Route.Update(item);
             unitOfWork.Save();
             return NoContent();
         }

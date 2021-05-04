@@ -34,11 +34,9 @@ namespace DAL.Repository
             return 1;
         }
 
-        public async Task<int> Update(Flight flight)
+        public void Update(Flight flight)
         {
-            var flt = await db.Flight.FindAsync(flight);
-            db.Entry(flt).CurrentValues.SetValues(flight);
-            return 1;
+            db.Entry(flight).State = EntityState.Modified;
         }
 
         public void Delete(int id)

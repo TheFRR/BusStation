@@ -16,20 +16,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FormPropsTextFields() {
   const classes = useStyles();
+
   const [number, setNumber] = React.useState('');
   const [departure, setDeparture] = React.useState('');
   const [arrival, setArrival] = React.useState('');
+
   const handleSubmit = (e) => {
     e.preventDefault();
     insertRoute({number, departure, arrival});
     window.location.reload();
   };
+
   return (
     <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
       <div style={{ margin: '0 auto' }}>
         <Input
           id="number"
           type="number"
+          InputProps={{ inputProps: { min: 1 } }}
           label="Номер маршрута"
           variant="outlined"
           value={number}

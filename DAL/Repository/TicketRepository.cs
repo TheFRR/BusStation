@@ -41,11 +41,10 @@ namespace DAL.Repository
             return 1;
         }
 
-        public async Task<int> Delete(int id)
+        public void Delete(int id)
         {
-            var tkt = await db.Ticket.FindAsync(id);
+            var tkt = db.Ticket.Find(id);
             db.Ticket.Remove(tkt);
-            return 1;
         }
     }
 }

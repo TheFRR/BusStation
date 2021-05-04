@@ -75,7 +75,7 @@ namespace BusStation.Controllers
             return NoContent();
         }
 
-        [Authorize(Roles = "admin")]
+        ///Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
@@ -83,12 +83,13 @@ namespace BusStation.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var item = unitOfWork.Route.Get(id);
+            var item = await unitOfWork.Route.Get((id));
             if (item == null)
             {
                 return NotFound();
             }
-            await unitOfWork.Route.Delete(item.Id);
+            //await unitOfWork.Route.Delete(item.Id);
+            unitOfWork.Route.Delete(item.Id);
             unitOfWork.Save();
             return NoContent();
         }

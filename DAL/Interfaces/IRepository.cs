@@ -11,6 +11,6 @@ namespace DAL.Interfaces
         Task<T> Get(int id);
         Task<int> Add(T item);
         Task<int> Update(T item);
-        Task<int> Delete(int id);
+        void Delete(int id);
     }
 }

@@ -4,6 +4,7 @@ using DAL.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -36,16 +37,18 @@ namespace DAL.Repository
 
         public async Task<int> Update(Route route)
         {
-            var rt = await db.Route.FindAsync(route.Id);
+            Route rt = await db.Route.FindAsync(route.Id);
             db.Entry(rt).CurrentValues.SetValues(route);
             return 1;
         }
 
-        public async Task<int> Delete(int id)
+        public void Delete(int id)
         {
-            var rt = await db.Route.FindAsync(id);
-            db.Route.Remove(rt);
-            return 1;
+            Route rt = db.Route.FirstOrDefault(r => r.Id == id);
+            if (rt != null)
+            {
+                db.Route.Remove(rt);
+            }
         }
 
     }

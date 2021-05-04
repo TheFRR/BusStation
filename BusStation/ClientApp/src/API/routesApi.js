@@ -1,5 +1,3 @@
-import { Route } from "react-router";
-
 const API_URL = "/api/Routes";
 export const getRoutes = async () => {
     const response = await fetch(API_URL);
@@ -13,6 +11,12 @@ export const insertRoute = async (route) => {
         },
         body: JSON.stringify(route),
     });
-    await response;
     return response;
 };
+export const deleteRoute = async (id) => {
+    const routeApiUrl = `${API_URL}/${id}`
+    const response = await fetch(routeApiUrl, {
+        method: "DELETE",
+    });
+    return response;
+}

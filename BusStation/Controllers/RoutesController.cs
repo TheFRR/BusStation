@@ -43,7 +43,7 @@ namespace BusStation.Controllers
             return Ok(route);
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Route route)
         {

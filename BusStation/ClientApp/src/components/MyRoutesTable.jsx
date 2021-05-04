@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import { getRoutes } from '../API/routesApi'
+import Button from '@material-ui/core/Button';
 
 const columns = [
   { field: 'number', headerName: 'Номер маршрута', width: 180, type: 'string' },
-  { field: 'arrival', headerName: 'Пункт отправки', width: 180, type: 'string' },
-  { field: 'departure', headerName: 'Пункт прибытия', width: 180, type: 'string' },
+  { field: 'departure', headerName: 'Пункт отправки', width: 180, type: 'string' },
+  { field: 'arrival', headerName: 'Пункт прибытия', width: 180, type: 'string' },
 ];
+
+
 
 export default function DataTable() {
   const [routes, setRoutes] = useState([]);
@@ -22,6 +25,10 @@ export default function DataTable() {
   return (
     <div style={{ height: 380, width: '80%', margin: 'auto' }}>
       <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection></DataGrid>
+      <div style={{ width: '80%', marginTop: '5px'}}>
+        <Button color="primary">Редактировать</Button>
+        <Button color="primary">Удалить</Button>
+      </div>
     </div>
   );
 }

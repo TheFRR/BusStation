@@ -1,7 +1,7 @@
 import React from 'react';
-import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
-import MySaveButton from "../components/MySaveButton.jsx"
+import { insertRoute } from '../API/routesApi'
 
 import "../custom.css"
 
@@ -16,26 +16,40 @@ const useStyles = makeStyles((theme) => ({
 
 export default function FormPropsTextFields() {
   const classes = useStyles();
-
+  const [number, setNumber] = React.useState('');
+  const [departure, setDeparture] = React.useState('');
+  const [arrival, setArrival] = React.useState('');
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    insertRoute({number, departure, arrival});
+    window.location.reload();
+  };
   return (
-    <form className={classes.root} noValidate autoComplete="off">
+    <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
       <div style={{ margin: '0 auto' }}>
-      <TextField
-          id="outlined-password-input"
+        <Input
+          id="number"
+          type="number"
           label="Номер маршрута"
           variant="outlined"
+          value={number}
+          onChange={(e) => setNumber(e.target.value)}
         />
-        <TextField
-          id="outlined-required"
+        <Input
+          id="departure"
           label="Пункт отправки"
           variant="outlined"
+          value={departure}
+          onChange={(e) => setDeparture(e.target.value)}
         />
-        <TextField
-          id="outlined-disabled"
+        <Input
+          id="arrival"
           label="Пункт прибытия"
           variant="outlined"
-        />       
-        <MySaveButton></MySaveButton>
+          value={arrival}
+          onChange={(e) => setArrival(e.target.value)}
+        />
+        <div><Input type="submit" value="Сохранить" variant="outlined" size="small"></Input></div>
       </div>
     </form>
   );

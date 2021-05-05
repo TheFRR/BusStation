@@ -1,4 +1,5 @@
 ﻿using BLL;
+using BusStation.Models;
 using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -41,15 +42,22 @@ namespace BusStation.Controllers
 
         //[Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Flight flight)
+        public async Task<IActionResult> Create([FromBody] FlightModel flight)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            await unitOfWork.Flight.Add(flight);
+            Route route = unitOfWork.Route.GetAll().Result.Where(r => r.Number == flight.RouteNumber).ToList()[0];
+            Flight flightDB = new Flight();
+            flightDB.Route = route;
+            flightDB.DepartureTime = flight.DepartureTime;
+            flightDB.ArrivalTime = flight.ArrivalTime;
+            flightDB.SeatsNumber = flight.SeatsNumber;
+            flightDB.BusySeatsNumber = flight.BusySeatsNumber;
+            await unitOfWork.Flight.Add(flightDB);
             unitOfWork.Save();
-            return CreatedAtAction("GetRoute", new { id = flight.Id }, flight);
+            return CreatedAtAction("GetRoute", new { id = flightDB.Id }, flightDB);
         }
 
         //[Authorize(Roles = "admin")]

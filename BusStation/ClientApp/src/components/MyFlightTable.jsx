@@ -50,6 +50,7 @@ export default function DataTable() {
       <div style={{ width: '80%', marginTop: '5px' }}>
         <Button color="primary">Редактировать</Button>
         <Button color="primary" onClick={handlePurge}>Удалить</Button>
+        <Button>К списку маршрутов</Button>
       </div>
     </div>
   );

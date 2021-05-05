@@ -14,7 +14,7 @@ namespace DAL.Repository
         private BaseContext db;
 
         public FlightRepository(BaseContext dbcontext)
-        {
+        { 
             db = dbcontext;
         }
 

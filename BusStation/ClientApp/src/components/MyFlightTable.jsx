@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import Button from '@material-ui/core/Button';
 import { DataGrid } from '@material-ui/data-grid';
 import { getFlights } from '../API/FlightsApi';
+import { deleteFlight } from '../API/FlightsApi';
 
 const columns = [
   { field: 'routeNumber', headerName: 'Маршрут', width: 200, type: 'string' },
@@ -21,14 +23,34 @@ export default function DataTable() {
     myMethod();
   }, []);
 
+  const [deletedRows, setDeletedRows] = useState([]);
+
+  const handleRowSelection = (e) => {
+    setDeletedRows([]);
+    setDeletedRows([...deletedRows, ...rows.filter((r) => r.id === e.data.id)]);
+    console.log(deletedRows);
+  };
+
+  const handlePurge = () => {
+    deleteFlight(deletedRows[deletedRows.length - 1].id);
+    window.location.reload();
+  };
+
   let rows = [];
   console.log(flights);
-  flights.map(f => rows.push({ id: f.id, routeNumber: f.route.number, arrivalTime: new Date(f.arrivalTime), departureTime: new Date(f.departureTime), 
-    busySeats: f.busySeatsNumber, seats: f.seatsNumber }));
+  flights.map(f => rows.push({
+    id: f.id, routeNumber: f.route.number, arrivalTime: new Date(f.arrivalTime), departureTime: new Date(f.departureTime),
+    busySeats: f.busySeatsNumber, seats: f.seatsNumber
+  }));
 
   return (
     <div style={{ height: 380, width: '80%', margin: 'auto' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5}></DataGrid>
+      <DataGrid rows={rows} columns={columns} pageSize={5} 
+      onRowSelected={handleRowSelection}></DataGrid>
+      <div style={{ width: '80%', marginTop: '5px' }}>
+        <Button color="primary">Редактировать</Button>
+        <Button color="primary" onClick={handlePurge}>Удалить</Button>
+      </div>
     </div>
   );
 }

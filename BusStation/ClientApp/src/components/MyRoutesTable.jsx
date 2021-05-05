@@ -40,7 +40,6 @@ export default function DataTable() {
   };
 
   const handlePurge = () => {
-    //deletedRows.map(r => { deleteRoute(r.id) });
     deleteRoute(deletedRows[deletedRows.length - 1].id);
     window.location.reload();
   };

@@ -9,9 +9,7 @@ export const UpdateFlight = () => {
         <div>
             <h3 align="center">Список рейсов</h3>
             <MyFlightTable></MyFlightTable>
-            <div style={{ width: '80%', margin: '10px auto' }}>
-                <Button color="primary">Редактировать</Button>
-                <Button color="primary">Удалить</Button>
+            <div style={{ width: '80%', margin: '10px auto' }}>              
                 <Button color="primary" style={{ float: 'right' }}>Вернуться к списку маршрутов</Button>
             </div>
         </div>

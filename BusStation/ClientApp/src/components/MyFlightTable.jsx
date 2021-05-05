@@ -1,27 +1,34 @@
-import * as React from 'react';
+import React, { useState, useEffect } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
+import { getFlights } from '../API/FlightsApi';
 
 const columns = [
-  { field: 'id', headerName: 'ID', width: 70 },
-  { field: 'route', headerName: 'Маршрут', width: 200, editable: false },
-  { field: 'departureTime', headerName: 'Время отправления', width: 200, editable: false },
-  { field: 'arrivalTime', headerName: 'Время прибытия', width: 200, editable: false },
-  { field: 'busySeats', headerName: 'Занято мест', width: 200, editable: false },
-  { field: 'seats', headerName: 'Всего мест', width: 200, editable: false }
-];
-
-const rows = [
-  { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35 },
-  { id: 2, lastName: 'Lannister', firstName: 'Cersei', age: 42 },
-  { id: 3, lastName: 'Lannister', firstName: 'Jaime', age: 45 },
-  { id: 4, lastName: 'Stark', firstName: 'Arya', age: 16 },
-  { id: 5, lastName: 'Targaryen', firstName: 'Daenerys', age: null }
+  { field: 'routeNumber', headerName: 'Маршрут', width: 200, type: 'string' },
+  { field: 'departureTime', headerName: 'Время отправления', width: 200, type: 'dateTime' },
+  { field: 'arrivalTime', headerName: 'Время прибытия', width: 200, type: 'dateTime' },
+  { field: 'busySeats', headerName: 'Занято мест', width: 200, type: 'string' },
+  { field: 'seats', headerName: 'Всего мест', width: 200, type: 'string' }
 ];
 
 export default function DataTable() {
+  const [flights, setFlights] = useState([]);
+  const myMethod = async () => {
+    let temp = await getFlights();
+    setFlights(temp);
+  };
+
+  useEffect(() => {
+    myMethod();
+  }, []);
+
+  let rows = [];
+  console.log(flights);
+  flights.map(f => rows.push({ id: f.id, routeNumber: f.route.number, arrivalTime: new Date(f.arrivalTime), departureTime: new Date(f.departureTime), 
+    busySeats: f.busySeatsNumber, seats: f.seatsNumber }));
+
   return (
     <div style={{ height: 380, width: '80%', margin: 'auto' }}>
-      <DataGrid rows={rows} columns={columns} pageSize={5} checkboxSelection ></DataGrid>
+      <DataGrid rows={rows} columns={columns} pageSize={5}></DataGrid>
     </div>
   );
 }

@@ -10,6 +10,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { deleteRoute } from '../API/RoutesApi';
 import { updateRoute } from '../API/RoutesApi';
+import { useHistory } from "react-router-dom";
 
 const columns = [
   { field: 'number', headerName: 'Номер маршрута', width: 180, type: 'string' },
@@ -27,6 +28,11 @@ export default function DataTable() {
   useEffect(() => {
     myMethod();
   }, []);
+
+  const history = useHistory();
+  const navigateToFlights = () => {
+    history.push('/flight');
+  }
 
   let rows = [];
   routes.map(r => rows.push({ id: r.id, number: r.number, arrival: r.arrival, departure: r.departure }));
@@ -76,6 +82,7 @@ export default function DataTable() {
       <div style={{ width: '80%', marginTop: '5px' }}>
         <Button color="primary" onClick={handleClickOpen}>Редактировать</Button>
         <Button color="primary" onClick={handlePurge}>Удалить</Button>
+        <Button onClick={navigateToFlights}>К списку рейсов</Button>
       </div>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

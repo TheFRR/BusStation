@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,6 +8,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { useHistory } from "react-router-dom";
+import { getAuthInfo } from '../API/Auth';
+import { signout } from '../API/Auth'
 
 import "../custom.css"
 
@@ -28,6 +30,17 @@ export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
+  const [msg, setMsg] = React.useState("");
+
+  const myMethod = async () => {
+    let temp = await getAuthInfo();
+    setMsg(temp.message);
+  };
+
+  useEffect(() => {
+    myMethod();
+  }, []);
+
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -45,7 +58,17 @@ export default function MenuAppBar() {
     history.push('/register');
     setAnchorEl(null);
   }
+  const navigateToUpdate = () => {
+    history.push('/route');
+    setAnchorEl(null);
+  }
   const navigateToMain = () => history.push('/');
+
+  const logOut = () => {
+    signout();
+    window.location.reload();
+    navigateToMain();  
+  }
 
   return (
     <div className={classes.root}>
@@ -54,6 +77,7 @@ export default function MenuAppBar() {
           <Typography variant="h6" className={classes.title} onClick={navigateToMain}>
             <a id="href" href="/" color="white">Автовокзал</a>
           </Typography>
+          <Typography style={{marginRight: '10px'}}>{msg}</Typography>
           {(
             <div>
               <IconButton
@@ -81,7 +105,9 @@ export default function MenuAppBar() {
                 onClose={handleClose}
               >
                 <MenuItem onClick={navigateToLogin}>Вход</MenuItem>
-                <MenuItem onClick={navigateToRegistartion}>Регистрация</MenuItem>
+                <MenuItem onClick={navigateToRegistartion}>Регистрация</MenuItem>            
+                <MenuItem onClick={navigateToUpdate}>Редактирование расписания</MenuItem>
+                <MenuItem onClick={logOut}>Выход из аккаунта</MenuItem>
               </Menu>
             </div>
           )}

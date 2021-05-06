@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import { signin } from '../API/Auth';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,8 +40,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge}) => {
+const Login = () => {
   const classes = useStyles();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const history = useHistory();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signin({email, password}); 
+    history.push('/');   
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -54,7 +66,7 @@ const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge
           <Typography component="h1" variant="h5">
             Заходите на сайт, всегда Вам рады!
           </Typography>
-          <form className={classes.form} onSubmit={onSigninSubmit} noValidate>
+          <form className={classes.form} noValidate onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"
@@ -64,7 +76,7 @@ const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge
               label="Электронная почта"
               name="email"
               value={email}
-              onChange={onEmailChange}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -77,7 +89,7 @@ const Login = ({onSigninSubmit, email, onEmailChange, password, onPasswordChahge
               id="password"
               autoComplete="current-password"
               value={password}
-              onChange={onPasswordChahge}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <Button
               type="submit"

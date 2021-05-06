@@ -7,14 +7,14 @@ import Grid from '@material-ui/core/Grid';
 import "../custom.css"
 
 export const Home = () => {
-  const [routes, setRoutes] = useState([]);
-  const mymethod = async () => {
-    let temp = await getRoutes();
-    setRoutes(temp);
-  };
-  useEffect(() => {
-    mymethod();
-  }, [])
+  // const [routes, setRoutes] = useState([]);
+  // const mymethod = async () => {
+  //   let temp = await getRoutes();
+  //   setRoutes(temp);
+  // };
+  // useEffect(() => {
+  //   mymethod();
+  // }, [])
     return (
       <div>
         <div style={{ backgroundColor: 'lightsteelblue', alignContent: 'center' }} >

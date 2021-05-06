@@ -23,38 +23,41 @@ export default function FormPropsTextFields() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    insertRoute({number, departure, arrival});
+    insertRoute({ number, departure, arrival });
     window.location.reload();
   };
 
   return (
-    <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
-      <div style={{ margin: '0 auto' }}>
-        <Input
-          id="number"
-          type="number"
-          InputProps={{ inputProps: { min: 1 } }}
-          label="Номер маршрута"
-          variant="outlined"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
-        />
-        <Input
-          id="departure"
-          label="Пункт отправки"
-          variant="outlined"
-          value={departure}
-          onChange={(e) => setDeparture(e.target.value)}
-        />
-        <Input
-          id="arrival"
-          label="Пункт прибытия"
-          variant="outlined"
-          value={arrival}
-          onChange={(e) => setArrival(e.target.value)}
-        />
-        <div><Input type="submit" value="Сохранить" variant="outlined" size="small"></Input></div>
-      </div>
-    </form>
+    <div>
+      <h3 align="center">Добавление маршрута</h3>
+      <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+        <div style={{ margin: '0 auto' }}>
+          <Input
+            id="number"
+            type="number"
+            InputProps={{ inputProps: { min: 1 } }}
+            label="Номер маршрута"
+            variant="outlined"
+            value={number}
+            onChange={(e) => setNumber(e.target.value)}
+          />
+          <Input
+            id="departure"
+            label="Пункт отправки"
+            variant="outlined"
+            value={departure}
+            onChange={(e) => setDeparture(e.target.value)}
+          />
+          <Input
+            id="arrival"
+            label="Пункт прибытия"
+            variant="outlined"
+            value={arrival}
+            onChange={(e) => setArrival(e.target.value)}
+          />
+          <div><Input type="submit" value="Добавить" variant="outlined" size="small"></Input></div>
+        </div>
+      </form>
+    </div>
   );
 }

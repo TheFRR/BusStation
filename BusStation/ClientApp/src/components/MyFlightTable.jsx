@@ -10,11 +10,11 @@ import { DataGrid } from '@material-ui/data-grid';
 import { getFlights } from '../API/FlightsApi';
 import { deleteFlight } from '../API/FlightsApi';
 import { updateFlight } from '../API/FlightsApi';
+import { useHistory } from "react-router-dom";
 import * as moment from 'moment';
-import { ContactMail } from '@material-ui/icons';
 
 const columns = [
-  { field: 'routeNumber', headerName: 'Маршрут', width: 200, type: 'string' },
+  { field: 'routeNumber', headerName: 'Номер маршрута', width: 200, type: 'string' },
   { field: 'departureTime', headerName: 'Время отправления', width: 200, type: 'dateTime' },
   { field: 'arrivalTime', headerName: 'Время прибытия', width: 200, type: 'dateTime' },
   { field: 'busySeats', headerName: 'Занято мест', width: 200, type: 'string' },
@@ -32,6 +32,11 @@ export default function DataTable() {
   useEffect(() => {
     myMethod();
   }, []);
+
+  const history = useHistory();
+  const navigateToRoutes = () => {
+    history.push('/route');
+  }
 
   const [open, setOpen] = React.useState(false);
 
@@ -90,7 +95,7 @@ export default function DataTable() {
       <div style={{ width: '80%', marginTop: '5px' }}>
         <Button color="primary" onClick={handleClickOpen}>Редактировать</Button>
         <Button color="primary" onClick={handlePurge}>Удалить</Button>
-        <Button>К списку маршрутов</Button>
+        <Button onClick={navigateToRoutes}>К списку маршрутов</Button>
       </div>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

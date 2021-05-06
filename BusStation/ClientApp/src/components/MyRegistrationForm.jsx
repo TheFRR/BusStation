@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -10,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
+import { signup } from '../API/Auth';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,8 +40,20 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Register = ({ onSigninSubmit, email, onEmailChange, password, onPasswordChahge }) => {
+const Register = () => {
   const classes = useStyles();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmedPassword, setConfirmedPassword] = useState("");
+
+  const history = useHistory();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    signup({email, password, confirmedPassword}); 
+    history.push('/');   
+  };
 
   return (
     <Grid container component="main" className={classes.root}>
@@ -54,7 +67,7 @@ const Register = ({ onSigninSubmit, email, onEmailChange, password, onPasswordCh
           <Typography component="h1" variant="h5">
             Покупайте билеты онлайн - зарегистриуйте аккаунт!
           </Typography>
-          <form className={classes.form} onSubmit={onSigninSubmit} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit} noValidate>
             <TextField
               variant="outlined"
               margin="normal"
@@ -64,7 +77,7 @@ const Register = ({ onSigninSubmit, email, onEmailChange, password, onPasswordCh
               label="Электронная почта"
               name="email"
               value={email}
-              onChange={onEmailChange}
+              onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -77,7 +90,7 @@ const Register = ({ onSigninSubmit, email, onEmailChange, password, onPasswordCh
               id="password"
               autoComplete="current-password"
               value={password}
-              onChange={onPasswordChahge}
+              onChange={(e) => setPassword(e.target.value)}
             />
             <TextField
               variant="outlined"
@@ -89,8 +102,8 @@ const Register = ({ onSigninSubmit, email, onEmailChange, password, onPasswordCh
               type="password"
               id="password"
               autoComplete="current-password"
-              value={password}
-              onChange={onPasswordChahge}
+              value={confirmedPassword}
+              onChange={(e) => setConfirmedPassword(e.target.value)}
             />
             <Button
               type="submit"

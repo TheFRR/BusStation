@@ -7,9 +7,8 @@ export const UpdateRoute = () => {
   return (
     <div>
       <h3 align="center">Список маршрутов</h3>
-      <MyRoutesTable></MyRoutesTable>
-      <h3 align="center" style={{marginTop: '30px'}}>Создание маршрута</h3>
-      <div align="center"><MyRouteForm></MyRouteForm></div>
+      <div><MyRoutesTable></MyRoutesTable></div>
+      <div align="center" style={{margin: '30px'}}><MyRouteForm></MyRouteForm></div>
     </div>
   );
 }

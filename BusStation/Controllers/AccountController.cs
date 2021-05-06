@@ -138,7 +138,7 @@ namespace BusStation.Controllers
             };
             return Ok(msg);
         }
-        private Task<User> GetCurrentUserAsync() =>
+        public Task<User> GetCurrentUserAsync() =>
         _userManager.GetUserAsync(HttpContext.User);
     }
 }

@@ -30,17 +30,6 @@ export default function MenuAppBar() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
-  const [msg, setMsg] = React.useState("");
-
-  const myMethod = async () => {
-    let temp = await getAuthInfo();
-    setMsg(temp.message);
-  };
-
-  useEffect(() => {
-    myMethod();
-  }, []);
-
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -66,7 +55,6 @@ export default function MenuAppBar() {
 
   const logOut = () => {
     signout();
-    window.location.reload();
     navigateToMain();  
   }
 
@@ -77,7 +65,6 @@ export default function MenuAppBar() {
           <Typography variant="h6" className={classes.title} onClick={navigateToMain}>
             <a id="href" href="/" color="white">Автовокзал</a>
           </Typography>
-          <Typography style={{marginRight: '10px'}}>{msg}</Typography>
           {(
             <div>
               <IconButton

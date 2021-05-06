@@ -51,7 +51,7 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    signup({email, password, confirmedPassword}); 
+    signup({email: email, password: password, passwordConfirm: confirmedPassword}); 
     history.push('/');   
   };
 
@@ -73,9 +73,7 @@ const Register = () => {
               margin="normal"
               required
               fullWidth
-              id="email"
               label="Электронная почта"
-              name="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -84,10 +82,8 @@ const Register = () => {
               margin="normal"
               required
               fullWidth
-              name="password"
               label="Пароль"
               type="password"
-              id="password"
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -97,10 +93,8 @@ const Register = () => {
               margin="normal"
               required
               fullWidth
-              name="password"
               label="Повторите пароль"
               type="password"
-              id="password"
               autoComplete="current-password"
               value={confirmedPassword}
               onChange={(e) => setConfirmedPassword(e.target.value)}

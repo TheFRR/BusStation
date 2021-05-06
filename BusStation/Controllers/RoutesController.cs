@@ -22,12 +22,14 @@ namespace BusStation.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public Task<List<Route>> GetAll()
         {
             return unitOfWork.Route.GetAll();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRoute([FromRoute] int id)
         {
@@ -43,7 +45,7 @@ namespace BusStation.Controllers
             return Ok(route);
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Route route)
         {
@@ -57,7 +59,7 @@ namespace BusStation.Controllers
             route);
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Route route)
         {
@@ -79,7 +81,7 @@ namespace BusStation.Controllers
             return NoContent();
         }
 
-        ///Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {

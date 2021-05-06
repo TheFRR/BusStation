@@ -1,6 +1,7 @@
 ﻿using BLL;
 using BLL.Models;
 using DAL.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ namespace BusStation.Controllers
             return unitOfWork.Flight.GetAll();
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFlight([FromRoute] int id)
         {
@@ -40,7 +42,7 @@ namespace BusStation.Controllers
             return Ok(flight);
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] FlightModel flight)
         {
@@ -60,7 +62,7 @@ namespace BusStation.Controllers
             return CreatedAtAction("GetRoute", new { id = flightDB.Id }, flightDB);
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] FlightModel flight)
         {
@@ -81,7 +83,7 @@ namespace BusStation.Controllers
             return NoContent();
         }
 
-        ///Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {

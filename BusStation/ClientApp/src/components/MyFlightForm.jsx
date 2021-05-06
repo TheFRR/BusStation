@@ -43,9 +43,7 @@ export default function FormPropsTextFields() {
   };
 
   let routesList = [];
-  console.log(routes);
   routes.map(r => routesList.push({number: r.number}));
-  console.log(routesList);
 
   return (
     <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>

@@ -24,9 +24,7 @@ export default function FormPropsTextFields() {
                 margin="normal"
                 id="date-picker-inline"
                 label="Дата отправления"
-                KeyboardButtonProps={{
-                    'aria-label': 'change date',
-                }}
+                KeyboardButtonProps={{ 'aria-label': 'change date', }}
                 style={{width: '100%'}}
             />
         </MuiPickersUtilsProvider>

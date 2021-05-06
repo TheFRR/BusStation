@@ -1,5 +1,5 @@
 ﻿using BLL;
-using BusStation.Models;
+using BLL.Models;
 using DAL.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -62,23 +62,20 @@ namespace BusStation.Controllers
 
         //[Authorize(Roles = "admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Flight flight)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] FlightModel flight)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             var item = await unitOfWork.Flight.Get(id);
-
             if (item == null)
             {
                 return NotFound();
             }
-            item.Route = flight.Route;
             item.ArrivalTime = flight.ArrivalTime;
             item.DepartureTime = flight.DepartureTime;
             item.SeatsNumber = flight.SeatsNumber;
-            item.BusySeatsNumber = flight.BusySeatsNumber;
             unitOfWork.Flight.Update(item);
             unitOfWork.Save();
             return NoContent();

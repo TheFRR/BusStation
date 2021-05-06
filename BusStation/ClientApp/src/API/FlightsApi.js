@@ -24,7 +24,7 @@ export const deleteFlight = async (id) => {
     return response;
 };
 
-export const updateRoute = async (flight) => {
+export const updateFlight = async (flight) => {
     const flightApiUrl = `${API_URL}/${flight.id}`;
     const response = await fetch(flightApiUrl, {
         method: "PUT",

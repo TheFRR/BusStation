@@ -28,13 +28,13 @@ export default function FormPropsTextFields() {
   };
 
   return (
-    <div>
+      <form className={classes.root} autoComplete="off" onSubmit={handleSubmit} align="center" style={{ margin: '30px auto' }}>
       <h3 align="center">Добавление маршрута</h3>
-      <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
-        <div style={{ margin: '0 auto' }}>
+        <div>
           <Input
             id="number"
             type="number"
+            required
             InputProps={{ inputProps: { min: 1 } }}
             label="Номер маршрута"
             variant="outlined"
@@ -43,6 +43,7 @@ export default function FormPropsTextFields() {
           />
           <Input
             id="departure"
+            required
             label="Пункт отправки"
             variant="outlined"
             value={departure}
@@ -50,6 +51,7 @@ export default function FormPropsTextFields() {
           />
           <Input
             id="arrival"
+            required
             label="Пункт прибытия"
             variant="outlined"
             value={arrival}
@@ -58,6 +60,5 @@ export default function FormPropsTextFields() {
           <div><Input type="submit" value="Добавить" variant="outlined" size="small"></Input></div>
         </div>
       </form>
-    </div>
   );
 }

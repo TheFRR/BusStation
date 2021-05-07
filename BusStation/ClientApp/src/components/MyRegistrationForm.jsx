@@ -76,7 +76,7 @@ const Register = () => {
           <Typography component="h1" variant="h5">
             Покупайте билеты онлайн - зарегистриуйте аккаунт!
           </Typography>
-          <form className={classes.form} onSubmit={handleSubmit} noValidate>
+          <form className={classes.form} onSubmit={handleSubmit}>
             <TextField
               variant="outlined"
               margin="normal"

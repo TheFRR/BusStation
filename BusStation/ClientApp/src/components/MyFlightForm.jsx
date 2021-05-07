@@ -46,7 +46,8 @@ export default function FormPropsTextFields() {
   routes.map(r => routesList.push({number: r.number}));
 
   return (
-    <form className={classes.root} noValidate autoComplete="off" onSubmit={handleSubmit}>
+    <form className={classes.root} autoComplete="off" align="center" onSubmit={handleSubmit} style={{ margin: '30px auto' }}>
+      <h3 align="center">Добавление рейса</h3>
       <div style={{ margin: '0 auto' }}>
         <Autocomplete
           id="number"
@@ -58,6 +59,7 @@ export default function FormPropsTextFields() {
         <TextField
           id="departure"
           type="datetime-local"
+          required
           label="Время отправки"
           variant="outlined"
           InputLabelProps={{ shrink: true }}
@@ -67,6 +69,7 @@ export default function FormPropsTextFields() {
         <TextField
           id="arrival"
           type="datetime-local"
+          required
           label="Время прибытия"
           InputLabelProps={{ shrink: true }}
           variant="outlined"
@@ -76,6 +79,7 @@ export default function FormPropsTextFields() {
         <Input
           id="seatsNumber"
           type="number"
+          required
           label="Кол-во мест"
           variant="outlined"
           value={seats}

@@ -79,10 +79,10 @@ export default function DataTable() {
     <div style={{ height: 380, width: '80%', margin: 'auto' }}>
       <DataGrid rows={rows} columns={columns} pageSize={5}
         onRowSelected={handleRowSelection}></DataGrid>
-      <div style={{ width: '80%', marginTop: '5px' }}>
-        <Button color="primary" onClick={handleClickOpen}>Редактировать</Button>
+      <div style={{ margin: '5px auto', display: 'flex', justifyContent: 'flex-start' }}>
+        <Button color="primary" onClick={handleClickOpen}>Изменить</Button>
         <Button color="primary" onClick={handlePurge}>Удалить</Button>
-        <Button onClick={navigateToFlights}>К списку рейсов</Button>
+        <Button onClick={navigateToFlights}>Рейсы</Button>
       </div>
 
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">

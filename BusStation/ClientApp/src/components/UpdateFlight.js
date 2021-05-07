@@ -9,10 +9,7 @@ export const UpdateFlight = () => {
         <div>
             <h3 align="center">Список рейсов</h3>
             <MyFlightTable></MyFlightTable>
-            <div align="center" style={{ margin: '30px auto' }}>
-                <h3 align="center">Добавление рейса</h3>
-                <div align="center"><MyFlightForm></MyFlightForm></div>
-            </div>
+            <MyFlightForm></MyFlightForm>
         </div>
     );
 }

@@ -40,8 +40,19 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Login = () => {
+export default function Login() {
   const classes = useStyles();
+
+  // const [msg, setMsg] = React.useState("");
+
+  // const myMethod = async () => {
+  //   let temp = await getAuthInfo();
+  //   setMsg(temp.message);
+  // };
+
+  // useEffect(() => {
+  //   myMethod();
+  // }, []);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -108,5 +119,3 @@ const Login = () => {
     </Grid>
   );
 }
-
-export default Login;

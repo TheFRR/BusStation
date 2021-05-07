@@ -41,3 +41,13 @@ export const getAuthInfo = async () => {
     });
     return response.json();
 };
+
+export const getUser = async () => {
+    const response = await fetch(API_URL + "/currentUser", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    return response.json();
+};

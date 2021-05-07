@@ -20,6 +20,7 @@ namespace BusStation.Controllers
             this.unitOfWork = unitOfWork;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet]
         public Task<List<Flight>> GetAll()
         {

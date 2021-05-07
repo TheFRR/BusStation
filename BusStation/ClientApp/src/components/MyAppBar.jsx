@@ -28,14 +28,26 @@ const useStyles = makeStyles((theme) => ({
 export default function MenuAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  
   const open = Boolean(anchorEl);
+
+  const [msg, setMsg] = React.useState("");
+
+  const myMethod = async () => {
+    let temp = await getAuthInfo();
+    setMsg(temp.message);
+  };
+
+  useEffect(() => {
+    myMethod();
+  }, []);
 
   const handleMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
-    setAnchorEl(this);
+    setAnchorEl(null);
   };
 
   const history = useHistory();
@@ -43,24 +55,30 @@ export default function MenuAppBar() {
     history.push('/login');
     setAnchorEl(null);
   }
+
   const navigateToRegistartion = () => {
     history.push('/register');
     setAnchorEl(null);
   }
+
   const navigateToUpdate = () => {
     history.push('/route');
     setAnchorEl(null);
   }
-  const navigateToMain = () => history.push('/');
+
+  const navigateToMain = () => {
+    history.push('/');
+  }
 
   const logOut = () => {
     signout();
+    handleClose();
     navigateToMain();  
   }
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar id="bar" position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title} onClick={navigateToMain}>
             <a id="href" href="/" color="white">Автовокзал</a>
@@ -91,10 +109,18 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
+              { myMethod() && msg == "Здравствуйте, гость!" &&
                 <MenuItem onClick={navigateToLogin}>Вход</MenuItem>
-                <MenuItem onClick={navigateToRegistartion}>Регистрация</MenuItem>            
+              }
+              { myMethod() && msg == "Здравствуйте, гость!" &&
+                <MenuItem onClick={navigateToRegistartion}>Регистрация</MenuItem>  
+              }          
+              { myMethod() && msg == "Здравствуйте, admin@mail.com!" &&
                 <MenuItem onClick={navigateToUpdate}>Редактирование расписания</MenuItem>
+              }
+              { myMethod() && msg != "Здравствуйте, гость!" &&
                 <MenuItem onClick={logOut}>Выход из аккаунта</MenuItem>
+              }
               </Menu>
             </div>
           )}

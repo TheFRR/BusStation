@@ -138,8 +138,14 @@ namespace BusStation.Controllers
             };
             return Ok(msg);
         }
-        public Task<User> GetCurrentUserAsync() =>
-        _userManager.GetUserAsync(HttpContext.User);
+
+        [HttpGet]
+        [Route("api/Account/currentUser")]
+        public Task<User> GetCurrentUserAsync()
+        {
+            var user =_userManager.GetUserAsync(HttpContext.User);
+            return user;
+        }
     }
 }
 

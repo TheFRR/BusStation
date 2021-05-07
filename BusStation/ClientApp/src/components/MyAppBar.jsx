@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -81,7 +81,7 @@ export default function MenuAppBar() {
       <AppBar id="bar" position="static">
         <Toolbar>
           <Typography variant="h6" className={classes.title} onClick={navigateToMain}>
-            <a id="href" href="/" color="white">Автовокзал</a>
+            <a id="href" href="#" color="white">Автовокзал</a>
           </Typography>
           {(
             <div>
@@ -109,16 +109,16 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-              { myMethod() && msg == "Здравствуйте, гость!" &&
+              { myMethod() && msg === "Здравствуйте, гость!" &&
                 <MenuItem onClick={navigateToLogin}>Вход</MenuItem>
               }
-              { myMethod() && msg == "Здравствуйте, гость!" &&
+              { myMethod() && msg === "Здравствуйте, гость!" &&
                 <MenuItem onClick={navigateToRegistartion}>Регистрация</MenuItem>  
               }          
-              { myMethod() && msg == "Здравствуйте, admin@mail.com!" &&
+              { myMethod() && msg === "Здравствуйте, admin@mail.com!" &&
                 <MenuItem onClick={navigateToUpdate}>Редактирование расписания</MenuItem>
               }
-              { myMethod() && msg != "Здравствуйте, гость!" &&
+              { myMethod() && msg !== "Здравствуйте, гость!" &&
                 <MenuItem onClick={logOut}>Выход из аккаунта</MenuItem>
               }
               </Menu>

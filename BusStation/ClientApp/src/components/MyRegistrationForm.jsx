@@ -6,7 +6,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { signup } from '../API/Auth';
@@ -43,16 +42,26 @@ const useStyles = makeStyles(theme => ({
 const Register = () => {
   const classes = useStyles();
 
+  const [msg, setMsg] = React.useState("");
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setConfirmedPassword] = useState("");
 
   const history = useHistory();
 
+  const register = async () => {
+    const response = await  signup({email: email, password: password, passwordConfirm: confirmedPassword}); ;
+    if (response.ok) history.push('/');
+    else {
+      let body = await response.json();
+      setMsg(body.error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    signup({email: email, password: password, passwordConfirm: confirmedPassword}); 
-    history.push('/');   
+    register();
   };
 
   return (
@@ -108,8 +117,7 @@ const Register = () => {
             >
               Зарегистрироваться
             </Button>
-            <Box mt={5}>
-            </Box>
+            <Typography align="center">{msg}</Typography>
           </form>
         </div>
       </Grid>

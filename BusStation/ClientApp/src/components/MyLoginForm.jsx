@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Paper from '@material-ui/core/Paper';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
@@ -6,7 +6,6 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { makeStyles } from '@material-ui/core/styles';
 import { signin } from '../API/Auth';
@@ -17,7 +16,8 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Ivanovo_asv2018-08_img58_aerial_view.jpg/1920px-Ivanovo_asv2018-08_img58_aerial_view.jpg)',
+    backgroundImage: 
+        'url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Ivanovo_asv2018-08_img58_aerial_view.jpg/1920px-Ivanovo_asv2018-08_img58_aerial_view.jpg)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -43,26 +43,25 @@ const useStyles = makeStyles(theme => ({
 export default function Login() {
   const classes = useStyles();
 
-  // const [msg, setMsg] = React.useState("");
-
-  // const myMethod = async () => {
-  //   let temp = await getAuthInfo();
-  //   setMsg(temp.message);
-  // };
-
-  // useEffect(() => {
-  //   myMethod();
-  // }, []);
+  const [msg, setMsg] = React.useState("");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const history = useHistory();
 
+  const login = async () => {
+    const response = await signin({email, password});
+    if (response.ok) history.push('/');
+    else {
+      let body = await response.json();
+      setMsg(body.error);
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    signin({email, password}); 
-    history.push('/');   
+    login();
   };
 
   return (
@@ -111,8 +110,7 @@ export default function Login() {
             >
               Войти
             </Button>
-            <Box mt={5}>
-            </Box>
+            <Typography align="center">{msg}</Typography>
           </form>
         </div>
       </Grid>

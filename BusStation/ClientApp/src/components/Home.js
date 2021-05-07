@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { getRoutes } from "../API/RoutesApi";
+import React from 'react';
 import MyFlightSearchForm from '../components/MyFlightSearchForm'
 import MyInfoList from '../components/MyInfoList'
 import MyNewsList from '../components/MyNewsList'

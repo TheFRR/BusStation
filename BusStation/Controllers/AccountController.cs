@@ -57,7 +57,7 @@ namespace BusStation.Controllers
                         error = ModelState.Values.SelectMany(e =>
                         e.Errors.Select(er => er.ErrorMessage))
                     };
-                    return Ok(errorMsg);
+                    return BadRequest(errorMsg);
                 }
             }
             else
@@ -69,7 +69,7 @@ namespace BusStation.Controllers
                     e.Errors.Select(er => er.ErrorMessage))
                 };
 
-                return Ok(errorMsg);
+                return BadRequest(errorMsg);
             }
         }
 
@@ -99,7 +99,7 @@ namespace BusStation.Controllers
                         error = ModelState.Values.SelectMany(e =>
                         e.Errors.Select(er => er.ErrorMessage))
                     };
-                    return Ok(errorMsg);
+                    return BadRequest(errorMsg);
                 }
             }
             else
@@ -110,7 +110,7 @@ namespace BusStation.Controllers
                     error = ModelState.Values.SelectMany(e =>
                     e.Errors.Select(er => er.ErrorMessage))
                 };
-                return Ok(errorMsg);
+                return BadRequest(errorMsg);
             }
         }
 

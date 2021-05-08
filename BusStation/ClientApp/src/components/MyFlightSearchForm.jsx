@@ -54,7 +54,7 @@ export default function FormPropsTextFields() {
             style={{width: '100%', paddingBottom: '15px', paddingTop: '10px'}}
             onSelect={(e) => setArrival(e.target.value)}/>
         <TextField 
-            required type="datetime-local" label="Время прибытия (+/- 2 часа)" variant="outlined" 
+            required type="datetime-local" label="Время прибытия (+/- 1 час)" variant="outlined" 
             InputLabelProps={{ shrink: true }} style={{width: '100%', paddingBottom: '15px', marginTop: '10px'}}
             value={arrivalTime} onChange={(e) => setArrivalTime(e.target.value)}></TextField>
         <TextField type="submit" value="Найти" color="primary"

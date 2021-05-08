@@ -5,6 +5,7 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
+import * as moment from 'moment';
 
 const useStyles = makeStyles({
     root: {
@@ -24,9 +25,8 @@ const useStyles = makeStyles({
     }
 });
 
-export default function SimpleCard() {
+export default function SimpleCard (props) {
     const classes = useStyles();
-
     return (
         <Card className={classes.root}>
             <CardContent className={classes.content}>
@@ -34,19 +34,19 @@ export default function SimpleCard() {
                     Время отправления
                     </Typography>
                 <Typography className={classes.text} variant="h5" component="h2">
-                    00:00
+                    {moment(props.data.flight.departureTime).format('DD.MM.YYYY HH:mm')}
                     </Typography>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                     Время прибытия
                     </Typography>
                 <Typography className={classes.text} variant="h5" component="h2">
-                    01:10
+                    {moment(props.data.flight.arrivalTime).format('DD.MM.YYYY HH:mm')}
                     </Typography>
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                     Цена (руб.)
                     </Typography>
                 <Typography variant="h5" component="h2">
-                    250
+                    {props.data.cost}
                     </Typography>
             </CardContent>
             <CardActions>

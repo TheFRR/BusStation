@@ -28,7 +28,7 @@ export default function InteractiveList() {
     <div className={classes.root}>
       <Grid container>
         <Grid item style={{width: '300px', height: '500px', marginLeft: 'auto', marginRight: 'auto'}}>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" className={classes.title} align="left">
             Данные о работе автовокзала
           </Typography>
           <div className={classes.demo}>

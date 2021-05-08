@@ -13,9 +13,9 @@ import { updateRoute } from '../API/RoutesApi';
 import { useHistory } from "react-router-dom";
 
 const columns = [
-  { field: 'number', headerName: 'Номер маршрута', width: 180, type: 'string' },
-  { field: 'departure', headerName: 'Пункт отправки', width: 180, type: 'string' },
-  { field: 'arrival', headerName: 'Пункт прибытия', width: 180, type: 'string' },
+  { field: 'number', headerName: 'Номер маршрута', width: 200, type: 'string' },
+  { field: 'departure', headerName: 'Пункт отправки', width: 200, type: 'string' },
+  { field: 'arrival', headerName: 'Пункт прибытия', width: 200, type: 'string' },
 ];
 
 export default function DataTable() {
@@ -42,6 +42,7 @@ export default function DataTable() {
   const handleRowSelection = (e) => {
     setDeletedRows([]);
     setDeletedRows([...deletedRows, ...rows.filter((r) => r.id === e.data.id)]);
+    setButtonAvailability(false);
     console.log(deletedRows);
   };
 
@@ -56,6 +57,7 @@ export default function DataTable() {
   const [number, setNumber] = React.useState('');
   const [departure, setDeparture] = React.useState('');
   const [arrival, setArrival] = React.useState('');
+  const [buttonAvailability, setButtonAvailability] = React.useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -80,8 +82,8 @@ export default function DataTable() {
       <DataGrid rows={rows} columns={columns} pageSize={5}
         onRowSelected={handleRowSelection}></DataGrid>
       <div style={{ margin: '5px auto', display: 'flex', justifyContent: 'flex-start' }}>
-        <Button color="primary" onClick={handleClickOpen}>Изменить</Button>
-        <Button color="primary" onClick={handlePurge}>Удалить</Button>
+        <Button color="primary" onClick={handleClickOpen} disabled={buttonAvailability}>Изменить</Button>
+        <Button color="primary" onClick={handlePurge} disabled={buttonAvailability}>Удалить</Button>
         <Button onClick={navigateToFlights}>Рейсы</Button>
       </div>
 
@@ -92,7 +94,7 @@ export default function DataTable() {
             Google, even when no apps are running.
           </DialogContentText>
         <DialogContent>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} >
             <div style={{ marginBottom: '15px' }}>
               <TextField
                 id="number"
@@ -100,6 +102,7 @@ export default function DataTable() {
                 InputProps={{ inputProps: { min: 1 } }}
                 label="Номер маршрута"
                 fullWidth
+                required
                 variant="outlined"
                 value={number}
                 onChange={(e) => setNumber(e.target.value)}
@@ -110,6 +113,7 @@ export default function DataTable() {
                 id="departure"
                 label="Пункт отправки"
                 fullWidth
+                required
                 variant="outlined"
                 value={departure}
                 onChange={(e) => setDeparture(e.target.value)}
@@ -120,13 +124,14 @@ export default function DataTable() {
                 id="arrival"
                 label="Пункт прибытия"
                 fullWidth
+                required
                 variant="outlined"
                 value={arrival}
                 onChange={(e) => setArrival(e.target.value)}
               />
             </div>
             <div style={{ margin: '25px auto' }}>
-              <Input fullWidth type="submit" value="Сохранить"></Input>
+              <TextField fullWidth type="submit" value="Сохранить" variant="outlined" size="small"></TextField>
             </div>
           </form>
         </DialogContent>

@@ -14,6 +14,7 @@ export const Home = () => {
   // useEffect(() => {
   //   mymethod();
   // }, [])
+  localStorage.clear();
     return (
       <div>
         <div style={{ backgroundColor: 'lightsteelblue', alignContent: 'center' }} >

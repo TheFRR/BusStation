@@ -46,6 +46,7 @@ export default function DataTable() {
   const [busySeats, setBusySeats] = React.useState(0);
   const [departureTime, setDeparture] = React.useState('');
   const [arrivalTime, setArrival] = React.useState('');
+  const [buttonAvailability, setButtonAvailability] = React.useState(true);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -74,6 +75,7 @@ export default function DataTable() {
   const handleRowSelection = (e) => {
     setDeletedRows([]);
     setDeletedRows([...deletedRows, ...rows.filter((r) => r.id === e.data.id)]);
+    setButtonAvailability(false);
     console.log(deletedRows);
   };
 
@@ -93,8 +95,8 @@ export default function DataTable() {
       <DataGrid rows={rows} columns={columns} pageSize={5}
         onRowSelected={handleRowSelection}></DataGrid>
       <div style={{ margin: '5px auto', display: 'flex', justifyContent: 'flex-start' }}>
-        <Button color="primary" onClick={handleClickOpen}>Изменить</Button>
-        <Button color="primary" onClick={handlePurge}>Удалить</Button>
+        <Button color="primary" onClick={handleClickOpen} disabled={buttonAvailability}>Изменить</Button>
+        <Button color="primary" onClick={handlePurge} disabled={buttonAvailability}>Удалить</Button>
         <Button onClick={navigateToRoutes}>Маршруты</Button>
       </div>
 
@@ -110,9 +112,9 @@ export default function DataTable() {
               <TextField
                 id="departure"
                 type="datetime-local"
-                //KeyboardButtonProps={{ 'aria-label': 'change date', }}
                 label="Время прибытия"
                 InputLabelProps={{ shrink: true }}
+                required
                 fullWidth
                 variant="outlined"
                 value={departureTime}
@@ -125,6 +127,7 @@ export default function DataTable() {
                 type="datetime-local"
                 label="Время прибытия"
                 InputLabelProps={{ shrink: true }}
+                required
                 fullWidth
                 variant="outlined"
                 value={arrivalTime}
@@ -136,6 +139,7 @@ export default function DataTable() {
                 id="seats"
                 type="number"
                 label="Всего мест"
+                required
                 fullWidth
                 variant="outlined"
                 value={seats}
@@ -143,7 +147,7 @@ export default function DataTable() {
               />
             </div>
             <div style={{ margin: '25px auto' }}>
-              <Input fullWidth type="submit" value="Сохранить"></Input>
+              <TextField fullWidth type="submit" value="Сохранить" variant="outlined" size="small"></TextField>
             </div>
           </form>
         </DialogContent>

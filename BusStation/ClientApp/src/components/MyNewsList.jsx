@@ -29,7 +29,7 @@ export default function InteractiveList() {
     <div className={classes.root}> 
       <Grid container>
         <Grid item style={{width: '300px', height: '500px', marginLeft: 'auto', marginRight: 'auto'}}>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" className={classes.title} align="left">
             Полезная информация и новости
           </Typography>
           <div className={classes.demo}>
@@ -37,13 +37,13 @@ export default function InteractiveList() {
                 <Button 
                 variant="contained"
                 color="primary"
-                size="medium"
-                style={{  width: '100%', margin: '10px auto' }}>История предприятия</Button>
+                size="medium" href="https://covid19.rosminzdrav.ru/"
+                style={{  width: '100%', margin: 'auto' }}>Информация о коронавирусе</Button>
                 <Button 
                 variant="contained"
                 color="primary"
-                size="medium"
-                style={{  width: '100%', margin: '10px auto' }}>Информация о коронавирусе</Button>
+                size="medium" href="https://xn--b1aew.xn--p1ai/%D0%BD%D0%B5%D1%82-%D1%8D%D0%BA%D1%81%D1%82%D1%80%D0%B5%D0%BC%D0%B8%D0%B7%D0%BC%D1%83"
+                style={{  width: '100%', margin: '10px auto' }}>Противодействие терроризму</Button>
                 <ListItem>
                   <ListItemIcon>
                     <Report />

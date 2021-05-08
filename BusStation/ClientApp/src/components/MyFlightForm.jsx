@@ -4,6 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from '@material-ui/core/styles';
 import { insertFlight } from '../API/FlightsApi';
 import { getRoutes } from '../API/RoutesApi';
+import { insertTicket } from '../API/RoutesApi';
 
 import "../custom.css"
 import TextField from '@material-ui/core/TextField';

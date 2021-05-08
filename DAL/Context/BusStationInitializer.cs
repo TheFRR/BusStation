@@ -11,6 +11,8 @@ namespace DAL.Context
         public static void Initialize(BaseContext baseContext)
         {
             baseContext.Database.EnsureCreated();
+            int cost = 250;
+            int seatsNumber = 25;
 
             if (baseContext.Route.Any())
             {
@@ -18,7 +20,8 @@ namespace DAL.Context
             }
             var routes = new Route[]
             {
-                new Route { Number = 1, Departure = "Иваново", Arrival = "Москва" }
+                new Route { Number = 1, Departure = "Иваново", Arrival = "Москва" },
+                new Route { Number = 2, Departure = "Иваново", Arrival = "Ярославль" }
             };
             foreach (Route route in routes)
             {
@@ -28,13 +31,18 @@ namespace DAL.Context
 
             var flights = new Flight[]
             {
-                new Flight { Route = routes[0],  DepartureTime = new DateTime(2020, 4, 01, 18, 00, 00),
-                    ArrivalTime = new DateTime(2020, 4, 01, 18, 30, 00), SeatsNumber = 25,
+                new Flight { Route = routes[0], DepartureTime = DateTime.Today,
+                    ArrivalTime = DateTime.Today, SeatsNumber = seatsNumber,
+                    BusySeatsNumber = 0 },
+                new Flight { Route = routes[1], DepartureTime = DateTime.Today,
+                    ArrivalTime = DateTime.Today, SeatsNumber = seatsNumber,
                     BusySeatsNumber = 0 }
             };
             foreach (Flight flight in flights)
             {
                 baseContext.Flight.Add(flight);
+                var ticket = new Ticket { Flight = flight, Cost = cost };
+                baseContext.Ticket.Add(ticket);
             }
             baseContext.SaveChanges();
         }

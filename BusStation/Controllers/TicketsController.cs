@@ -1,5 +1,4 @@
 ﻿using BLL;
-using BLL.Models;
 using DAL.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,84 +9,68 @@ using System.Threading.Tasks;
 
 namespace BusStation.Controllers
 {
-    [Route("api/Flights")]
+    [Route("api/Tickets")]
     [ApiController]
-    public class FlightsController : Controller
+    public class TicketsController : Controller
     {
         IUnitOfWork unitOfWork;
-        public FlightsController(IUnitOfWork unitOfWork)
+        public TicketsController(IUnitOfWork unitOfWork)
         {
             this.unitOfWork = unitOfWork;
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet]
-        public Task<List<Flight>> GetAll()
+        public Task<List<Ticket>> GetAll()
         {
-            return unitOfWork.Flight.GetAll();
+            return unitOfWork.Ticket.GetAll();
         }
 
         [Authorize(Roles = "admin")]
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetFlight([FromRoute] int id)
+        public async Task<IActionResult> GetTicket([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var flight = await unitOfWork.Flight.Get(id);
-            if (flight == null)
+            var ticket = await unitOfWork.Ticket.Get(id);
+            if (ticket == null)
             {
                 return NotFound();
             }
-            return Ok(flight);
+            return Ok(ticket);
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] FlightModel flight)
+        public async Task<IActionResult> Create([FromBody] Ticket ticket)
         {
-            int cost = 200;
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            Route route = unitOfWork.Route.GetAll().Result.Where(r => r.Number == flight.RouteNumber).ToList()[0];
-            Flight flightDB = new Flight();
-            flightDB.Route = route;
-            flightDB.DepartureTime = flight.DepartureTime;
-            flightDB.ArrivalTime = flight.ArrivalTime;
-            flightDB.SeatsNumber = flight.SeatsNumber;
-            flightDB.BusySeatsNumber = flight.BusySeatsNumber;
-            await unitOfWork.Flight.Add(flightDB);
-            unitOfWork.Save();
-
-            Ticket ticket = new Ticket();
-            ticket.Flight = flightDB;
-            ticket.Cost = cost;
             await unitOfWork.Ticket.Add(ticket);
             unitOfWork.Save();
-
-            return CreatedAtAction("GetRoute", new { id = flightDB.Id }, flightDB);
+            return CreatedAtAction("GetRoute", new { id = ticket.Id }, ticket);
         }
+    
 
         [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] FlightModel flight)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Ticket ticket)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var item = await unitOfWork.Flight.Get(id);
+            var item = await unitOfWork.Ticket.Get(id);
             if (item == null)
             {
                 return NotFound();
             }
-            item.ArrivalTime = flight.ArrivalTime;
-            item.DepartureTime = flight.DepartureTime;
-            item.SeatsNumber = flight.SeatsNumber;
-            unitOfWork.Flight.Update(item);
+            item.Flight = ticket.Flight;
+            item.Cost = ticket.Cost;
+            unitOfWork.Ticket.Update(item);
             unitOfWork.Save();
             return NoContent();
         }
@@ -100,13 +83,13 @@ namespace BusStation.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var item = await unitOfWork.Flight.Get((id));
+            var item = await unitOfWork.Ticket.Get((id));
             if (item == null)
             {
                 return NotFound();
             }
             //await unitOfWork.Route.Delete(item.Id);
-            unitOfWork.Flight.Delete(item.Id);
+            unitOfWork.Ticket.Delete(item.Id);
             unitOfWork.Save();
             return NoContent();
         }

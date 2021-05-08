@@ -20,7 +20,7 @@ export const Home = () => {
         <div style={{ backgroundColor: 'lightsteelblue', alignContent: 'center' }} >
             <MyFlightSearchForm></MyFlightSearchForm>
         </div>
-        <Grid container style={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid container style={{ display: 'flex', justifyContent: 'center', marginBottom: '80px' }}>
             <MyInfoList></MyInfoList>
             <MyNewsList></MyNewsList>
         </Grid>

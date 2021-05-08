@@ -41,7 +41,15 @@ namespace DAL.Context
             foreach (Flight flight in flights)
             {
                 baseContext.Flight.Add(flight);
-                var ticket = new Ticket { Flight = flight, Cost = cost };
+            }
+            baseContext.SaveChanges();
+
+            var tickets = new Ticket[]
+            {
+                new Ticket { Flight = flights[0], Cost = cost }
+            };
+            foreach (Ticket ticket in tickets)
+            {
                 baseContext.Ticket.Add(ticket);
             }
             baseContext.SaveChanges();

@@ -25,7 +25,6 @@ namespace BusStation.Controllers
             return unitOfWork.Ticket.GetAll();
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTicket([FromRoute] int id)
         {

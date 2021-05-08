@@ -20,7 +20,7 @@ namespace DAL.Repository
 
         public async Task<List<Ticket>> GetAll()
         {
-            return await db.Ticket.ToListAsync();
+            return await db.Ticket.Include(t => t.Flight).ThenInclude(f => f.Route).ToListAsync();
         }
 
         public async Task<Ticket> Get(int id)

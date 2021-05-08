@@ -28,7 +28,6 @@ namespace BusStation.Controllers
             return unitOfWork.Route.GetAll();
         }
 
-        [Authorize(Roles = "admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRoute([FromRoute] int id)
         {

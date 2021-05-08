@@ -16,10 +16,11 @@ export const BuyTicket = () => {
     };
     useEffect(() => {
         _getTickets();
-    }, [])
+    }, []);
+    
     console.log(tickets);
 
-    tickets.map(t => { const elem = <MyTicketCard></MyTicketCard>; ReactDom.render(elem, document.getElementById('divForTickets')) });
+    //tickets.map(t => { const elem = <MyTicketCard></MyTicketCard>; ReactDom.render(elem, document.getElementById('divForTickets')) });
 
     return (
         <div>

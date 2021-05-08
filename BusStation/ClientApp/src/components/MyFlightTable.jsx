@@ -37,6 +37,8 @@ export default function DataTable() {
     history.push('/route');
   }
 
+  console.log(flights);
+
   const [open, setOpen] = React.useState(false);
 
   const [id, setId] = React.useState('');

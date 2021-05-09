@@ -76,10 +76,14 @@ export default function MenuAppBar() {
     history.push('/');
   }
 
+  const navigateToBasket = () => {
+    history.push('/basket');
+  }
+
   const logOut = () => {
     signout();
     handleClose();
-    navigateToMain();  
+    window.location.href = '/';
   }
 
   return (
@@ -91,13 +95,16 @@ export default function MenuAppBar() {
           </Typography>
           {(
             <div>
+              { user != null && user.userName != "admin@mail.com" &&
               <IconButton
                 aria-label="basket of current user"
                 aria-haspopup="true"
                 color="inherit"
+                onClick={navigateToBasket}
               >
                 <ShoppingBasketIcon />
               </IconButton>
+              }
               <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
@@ -122,7 +129,7 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-              { _setUser() && user === null &&
+              { user === null &&
                 <MenuItem onClick={navigateToLogin}>Вход</MenuItem>
               }
               { user === null &&

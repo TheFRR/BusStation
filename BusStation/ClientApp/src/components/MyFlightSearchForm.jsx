@@ -7,9 +7,9 @@ import { useHistory } from "react-router-dom";
 
 export default function FormPropsTextFields() {
 
-  const [departure, setDeparture] = React.useState(localStorage.length !== 0 ? JSON.parse(localStorage.getItem('form')).departure : "");
-  const [arrival, setArrival] = React.useState(localStorage.length !== 0 ? JSON.parse(localStorage.getItem('form')).arrival : "");
-  const [arrivalTime, setArrivalTime] = React.useState(localStorage.length !== 0 ? JSON.parse(localStorage.getItem('form')).arrivalTime : "");
+  const [departure, setDeparture] = React.useState(localStorage.getItem('form') !== null ? JSON.parse(localStorage.getItem('form')).departure : "");
+  const [arrival, setArrival] = React.useState(localStorage.getItem('form') !== null ? JSON.parse(localStorage.getItem('form')).arrival : "");
+  const [arrivalTime, setArrivalTime] = React.useState(localStorage.getItem('form') !== null ? JSON.parse(localStorage.getItem('form')).arrivalTime : "");
 
   const [routes, setRoutes] = useState([]);
   const _getRoutes = async () => {

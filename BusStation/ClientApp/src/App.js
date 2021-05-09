@@ -6,6 +6,8 @@ import { Register } from './components/Register'
 import { UpdateRoute } from './components/UpdateRoute'
 import { BuyTicket } from './components/BuyTicket'
 import { UpdateFlight } from './components/UpdateFlight'
+import { Basket } from './components/Basket'
+import { PayPage } from './components/PayPage'
 import MyAppBar from "./components/MyAppBar"
 
 import './custom.css'
@@ -24,6 +26,8 @@ export default class App extends Component {
         <Route path='/route' component={UpdateRoute} />
         <Route path='/buy' component={BuyTicket} />
         <Route path='/flight' component={UpdateFlight} />
+        <Route path='/basket' component={Basket} />
+        <Route path='/pay' component={PayPage} />
       </Switch>  
     </>
     )

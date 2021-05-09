@@ -12,7 +12,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { insertBoughtTicket } from '../API/BoughtTicketsApi';
 import { getUser } from '../API/Auth';
-import { updateFlight } from '../API/FlightsApi';
+import { useHistory } from "react-router-dom";
 import * as moment from 'moment';
 
 const useStyles = makeStyles({
@@ -71,8 +71,15 @@ export default function SimpleCard(props) {
         _setUser();
     }, []);
 
-    const buyTicket = () => {
+    const addToBasket = () => {
         handleClickOpen();
+    }
+
+    const history = useHistory();
+
+    const navigateToPay = () => {
+        localStorage.setItem("ticket", JSON.stringify(props.data));
+        history.push('/pay');
     }
 
     return (
@@ -98,9 +105,11 @@ export default function SimpleCard(props) {
                         {props.data.cost}
                     </Typography>
                 </CardContent>
-                <CardActions>
-                    <Button size="small" onClick={buyTicket}>Добавить в корзину</Button>
-                </CardActions>
+                { window.location.href === 'http://localhost:52646/buy' && 
+                    <CardActions>
+                        <Button size="small" onClick={addToBasket}>Добавить в корзину</Button>
+                    </CardActions>
+                }
             </Card>
 
             <Dialog

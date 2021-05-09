@@ -16,7 +16,8 @@ const useStyles = makeStyles(theme => ({
     height: '100vh',
   },
   image: {
-    backgroundImage: 'url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Ivanovo_asv2018-08_img58_aerial_view.jpg/1920px-Ivanovo_asv2018-08_img58_aerial_view.jpg)',
+    backgroundImage: 
+      'url(https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Ivanovo_asv2018-08_img58_aerial_view.jpg/1920px-Ivanovo_asv2018-08_img58_aerial_view.jpg)',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     backgroundPosition: 'center',
@@ -52,7 +53,7 @@ const Register = () => {
 
   const register = async () => {
     const response = await  signup({email: email, password: password, passwordConfirm: confirmedPassword}); ;
-    if (response.ok) history.push('/');
+    if (response.ok) window.location.href = '/';
     else {
       let body = await response.json();
       setMsg(body.error);

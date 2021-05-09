@@ -52,7 +52,7 @@ export default function Login() {
 
   const login = async () => {
     const response = await signin({email, password});
-    if (response.ok) history.push('/');
+    if (response.ok) window.location.href = '/';
     else {
       let body = await response.json();
       setMsg(body.error);

@@ -70,7 +70,7 @@ namespace BusStation.Controllers
         }
 
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] BoughtTicket ticket)
         {
@@ -83,8 +83,7 @@ namespace BusStation.Controllers
             {
                 return NotFound();
             }
-            item.Ticket = ticket.Ticket;
-            item.User = ticket.User;
+            item.IsPaid = ticket.IsPaid;
             unitOfWork.BoughtTicket.Update(item);
             unitOfWork.Save();
             return NoContent();

@@ -19,7 +19,7 @@ namespace BLL
         private RouteRepository routeRepository;
         private TicketRepository ticketRepository;
         private UserRepository userRepository;
-        private BoughtTicketsRepository boughtTicketsRepository;
+        private BoughtTicketRepository boughtTicketRepository;
 
         public FlightRepository Flight
         {
@@ -61,13 +61,13 @@ namespace BLL
             }
         }
 
-        public BoughtTicketsRepository BoughtTickets
+        public BoughtTicketRepository BoughtTicket
         {
             get
             {
-                if (boughtTicketsRepository == null)
-                    boughtTicketsRepository = new BoughtTicketsRepository(db);
-                return boughtTicketsRepository;
+                if (boughtTicketRepository == null)
+                    boughtTicketRepository = new BoughtTicketRepository(db);
+                return boughtTicketRepository;
             }
         }
 

@@ -10,7 +10,7 @@ namespace BLL
         FlightRepository Flight { get; }
         RouteRepository Route { get; }
         TicketRepository Ticket { get; }
-        BoughtTicketsRepository BoughtTickets { get; }
+        BoughtTicketRepository BoughtTicket { get; }
         UserRepository User { get; }
 
         int Save();

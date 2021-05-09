@@ -69,7 +69,6 @@ namespace BusStation.Controllers
             return CreatedAtAction("GetRoute", new { id = flightDB.Id }, flightDB);
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] FlightModel flight)
         {
@@ -84,6 +83,7 @@ namespace BusStation.Controllers
             }
             item.ArrivalTime = flight.ArrivalTime;
             item.DepartureTime = flight.DepartureTime;
+            item.BusySeatsNumber = flight.BusySeatsNumber;
             item.SeatsNumber = flight.SeatsNumber;
             unitOfWork.Flight.Update(item);
             unitOfWork.Save();

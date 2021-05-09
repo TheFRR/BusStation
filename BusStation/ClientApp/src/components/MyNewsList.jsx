@@ -28,7 +28,7 @@ export default function InteractiveList() {
   return (
     <div className={classes.root}> 
       <Grid container>
-        <Grid item style={{width: '300px', height: '500px', marginLeft: 'auto', marginRight: 'auto', paddingBottom: '30px'}}>
+        <Grid item style={{width: '300px', height: '500px', marginLeft: 'auto', marginRight: 'auto', marginBottom: '70px'}}>
           <Typography variant="h6" className={classes.title} align="left">
             Полезная информация и новости
           </Typography>
@@ -58,6 +58,14 @@ export default function InteractiveList() {
                   </ListItemIcon>
                   <ListItemText
                     primary="Рейсы до с. Жабное отменены"
+                  />
+                </ListItem>
+                <ListItem>
+                  <ListItemIcon>
+                    <Report />
+                  </ListItemIcon>
+                  <ListItemText
+                    primary="Рейсы до д. Лягушечная отменены"
                   />
                 </ListItem>
             </List>

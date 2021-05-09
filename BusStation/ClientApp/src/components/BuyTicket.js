@@ -28,8 +28,9 @@ export const BuyTicket = () => {
     tickets.map(t => {
         let arrivalTimeTicket = new Date(t.flight.arrivalTime).getTime();
         if (arrivalTimeTicket <= arrivalTimeFormPlus && arrivalTimeTicket >= arrivalTimeFormMinus &&
-        t.flight.route.arrival === searchData.arrival && t.flight.route.departure === searchData.departure) selectedTickets.push(t);
-    }) 
+        t.flight.route.arrival === searchData.arrival && t.flight.route.departure === searchData.departure &&
+        t.flight.busySeatsNumber < t.flight.seatsNumber) selectedTickets.push(t);
+    });
     
     return (
         <div>

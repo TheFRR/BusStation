@@ -139,12 +139,19 @@ namespace BusStation.Controllers
             return Ok(msg);
         }
 
-        [HttpGet]
-        [Route("api/Account/currentUser")]
         public Task<User> GetCurrentUserAsync()
         {
-            var user =_userManager.GetUserAsync(HttpContext.User);
+            var user = _userManager.GetUserAsync(HttpContext.User);
             return user;
+        }
+
+        [HttpPost]
+        [Route("api/Account/currentUser")]
+        public async Task<IActionResult> GetCurrentUser()
+        {
+            User user = await GetCurrentUserAsync();
+            if (user != null) return Ok(user);
+            else return BadRequest();
         }
     }
 }

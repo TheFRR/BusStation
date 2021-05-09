@@ -5,10 +5,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import ShoppingBasketIcon from '@material-ui/icons/ShoppingBasket';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { useHistory } from "react-router-dom";
-import { getAuthInfo } from '../API/Auth';
+import { getUser } from '../API/Auth';
 import { signout } from '../API/Auth'
 
 import "../custom.css"
@@ -31,15 +32,19 @@ export default function MenuAppBar() {
   
   const open = Boolean(anchorEl);
 
-  const [msg, setMsg] = React.useState("");
+  const [user, setUser] = React.useState(null);
 
-  const myMethod = async () => {
-    let temp = await getAuthInfo();
-    setMsg(temp.message);
+  const _setUser = async () => {
+    const response = await getUser();
+    if (response.ok) {
+      let body = await response.json();
+      setUser(body);
+    }
+    else setUser(null);
   };
 
   useEffect(() => {
-    myMethod();
+    _setUser();
   }, []);
 
   const handleMenu = (event) => {
@@ -51,6 +56,7 @@ export default function MenuAppBar() {
   };
 
   const history = useHistory();
+
   const navigateToLogin = () => {
     history.push('/login');
     setAnchorEl(null);
@@ -86,6 +92,13 @@ export default function MenuAppBar() {
           {(
             <div>
               <IconButton
+                aria-label="basket of current user"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <ShoppingBasketIcon />
+              </IconButton>
+              <IconButton
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
@@ -109,16 +122,16 @@ export default function MenuAppBar() {
                 open={open}
                 onClose={handleClose}
               >
-              { myMethod() && msg === "Здравствуйте, гость!" &&
+              { _setUser() && user === null &&
                 <MenuItem onClick={navigateToLogin}>Вход</MenuItem>
               }
-              { myMethod() && msg === "Здравствуйте, гость!" &&
+              { user === null &&
                 <MenuItem onClick={navigateToRegistartion}>Регистрация</MenuItem>  
               }          
-              { myMethod() && msg === "Здравствуйте, admin@mail.com!" &&
+              { user !== null && user.userName === "admin@mail.com" &&
                 <MenuItem onClick={navigateToUpdate}>Редактирование расписания</MenuItem>
               }
-              { myMethod() && msg !== "Здравствуйте, гость!" &&
+              { user !== null &&
                 <MenuItem onClick={logOut}>Выход из аккаунта</MenuItem>
               }
               </Menu>

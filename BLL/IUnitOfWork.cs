@@ -12,6 +12,7 @@ namespace BLL
         TicketRepository Ticket { get; }
         BoughtTicketRepository BoughtTicket { get; }
         UserRepository User { get; }
+        RatingRepository Rating { get; }
 
         int Save();
     }

@@ -4,7 +4,10 @@ using System.Text;
 
 namespace DAL.Entities
 {
-    class Rating
+    public class Rating : BaseEntity
     {
+        public virtual Route Route { get; set; }
+        public virtual User User { get; set; }
+        public int Mark { get; set; }
     }
 }

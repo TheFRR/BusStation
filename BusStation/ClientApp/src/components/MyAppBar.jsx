@@ -86,6 +86,8 @@ export default function MenuAppBar() {
     window.location.href = '/';
   }
 
+  console.log(user);
+
   return (
     <div className={classes.root}>
       <AppBar id="bar" position="static">

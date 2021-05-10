@@ -10,102 +10,111 @@ using System.Threading.Tasks;
 
 namespace BusStation.Controllers
 {
-    [Route("api/Tickets")]
+    [Route("api/Ratings")]
     [ApiController]
-    public class TicketsController : Controller
+    public class RatingsController : Controller
     {
         IUnitOfWork unitOfWork;
-        private readonly ILogger<TicketsController> logger;
-        public TicketsController(IUnitOfWork unitOfWork, ILogger<TicketsController> logger)
+        private readonly ILogger<RatingsController> logger;
+
+        public RatingsController(IUnitOfWork unitOfWork, ILogger<RatingsController> logger)
         {
             this.unitOfWork = unitOfWork;
             this.logger = logger;
         }
 
         [HttpGet]
-        public Task<List<Ticket>> GetAll()
+        public Task<List<Rating>> GetAll()
         {
-            logger.LogInformation("Вызов get запроса api/Tickets");
-            return unitOfWork.Ticket.GetAll();
+            logger.LogInformation("Вызов get запроса api/Ratings");
+            return unitOfWork.Rating.GetAll();
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetTicket([FromRoute] int id)
+        public async Task<IActionResult> GetRoute([FromRoute] int id)
         {
-            logger.LogInformation($"Вызов get запроса api/Tickets/{id}");
+            logger.LogInformation($"Вызов get запроса api/Ratings/{id}");
             if (!ModelState.IsValid)
             {
                 logger.LogError($"BadRequest: {ModelState}");
                 return BadRequest(ModelState);
             }
-            var ticket = await unitOfWork.Ticket.Get(id);
-            if (ticket == null)
+            var rating = await unitOfWork.Rating.Get(id);
+            if (rating == null)
             {
                 logger.LogError("NotFound");
                 return NotFound();
             }
             logger.LogInformation("ОК");
-            return Ok(ticket);
+            return Ok(rating);
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user")]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] Ticket ticket)
+        public async Task<IActionResult> Create([FromBody] Rating rating)
         {
-            logger.LogInformation("Вызов post запроса api/Tickets");
+            logger.LogInformation("Вызов post запроса api/Ratings");
             if (!ModelState.IsValid)
             {
                 logger.LogError($"BadRequest: {ModelState}");
                 return BadRequest(ModelState);
             }
-            await unitOfWork.Ticket.Add(ticket);
+
+            var user = rating.User;
+            var userDB = unitOfWork.User.GetAll().Result.Where(u => u.Id == user.Id).ToList()[0];
+
+            var route = rating.Route;
+            var routeDB = await unitOfWork.Route.Get(route.Id);
+
+            rating.Route = routeDB;
+            rating.User = userDB;
+
+            await unitOfWork.Rating.Add(rating);
             unitOfWork.Save();
             logger.LogInformation("ОК");
-            return CreatedAtAction("GetRoute", new { id = ticket.Id }, ticket);
+            return CreatedAtAction("GetRoute", new { id = rating.Id }, rating);
         }
-    
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Ticket ticket)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Rating rating)
         {
-            logger.LogInformation($"Вызов put запроса api/Tickets/{id}");
+            logger.LogInformation($"Вызов put запроса api/Ratings/{id}");
             if (!ModelState.IsValid)
             {
                 logger.LogError($"BadRequest: {ModelState}");
                 return BadRequest(ModelState);
             }
-            var item = await unitOfWork.Ticket.Get(id);
+            var item = await unitOfWork.Rating.Get(id);
             if (item == null)
             {
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            item.Flight = ticket.Flight;
-            item.Cost = ticket.Cost;
-            unitOfWork.Ticket.Update(item);
+            item.Mark = rating.Mark;
+            unitOfWork.Rating.Update(item);
             unitOfWork.Save();
             logger.LogInformation("ОК");
             return NoContent();
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "user")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
         {
-            logger.LogInformation($"Вызов delete запроса api/Tickets/{id}");
+            logger.LogInformation($"Вызов delete запроса api/Ratings/{id}");
             if (!ModelState.IsValid)
             {
                 logger.LogError($"BadRequest: {ModelState}");
                 return BadRequest(ModelState);
             }
-            var item = await unitOfWork.Ticket.Get((id));
+            var item = await unitOfWork.Rating.Get((id));
             if (item == null)
             {
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            unitOfWork.Ticket.Delete(item.Id);
+            unitOfWork.Rating.Delete(item.Id);
             unitOfWork.Save();
             logger.LogInformation("ОК");
             return NoContent();

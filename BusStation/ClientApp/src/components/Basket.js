@@ -53,7 +53,7 @@ export const Basket = () => {
             }
             { selectedTickets.length !== 0 &&
                 <div align="center"><Button variant="contained" color="primary" 
-                style={{width: '250px'}} onClick={navigateToPay}>Оплатить</Button></div>
+                style={{width: '250px', marginBottom: '30px'}} onClick={navigateToPay}>Оплатить</Button></div>
             }
             { selectedTickets.length === 0 &&
                 <div align="center" style={{marginTop: '30px'}}>

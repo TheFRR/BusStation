@@ -6,13 +6,16 @@ import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Dialog from '@material-ui/core/Dialog';
+import Box from '@material-ui/core/Box';
+import Rating from '@material-ui/lab/Rating';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { getRatings } from '../API/RatingsApi';
+import { insertRating } from '../API/RatingsApi';
 import { insertBoughtTicket } from '../API/BoughtTicketsApi';
 import { getUser } from '../API/Auth';
-import { useHistory } from "react-router-dom";
 import * as moment from 'moment';
 
 const useStyles = makeStyles({
@@ -48,16 +51,14 @@ export default function SimpleCard(props) {
 
     const handleAccept = () => {
         insertBoughtTicket({ user: user, ticket: props.data, isPaid: false });
-        // updateFlight({
-        //     id: props.data.flight.id, routeNumber: props.data.flight.route.number,
-        //     arrivalTime: props.data.flight.arrivalTime.toString(), departureTime: props.data.flight.departureTime.toString(),
-        //     seatsNumber: props.data.flight.seatsNumber, busySeatsNumber: props.data.flight.busySeatsNumber + 1
-        // });
         window.location.reload();
     }
 
-    const [user, setUser] = React.useState(null);
+    const addToBasket = () => {
+        handleClickOpen();
+    }
 
+    const [user, setUser] = React.useState(null);
     const _setUser = async () => {
         const response = await getUser();
         if (response.ok) {
@@ -66,26 +67,54 @@ export default function SimpleCard(props) {
         }
         else setUser(null);
     };
-
     useEffect(() => {
         _setUser();
     }, []);
 
-    const addToBasket = () => {
-        handleClickOpen();
-    }
+    const [value, setValue] = React.useState(0);
 
-    const history = useHistory();
+    const [ratings, setRatings] = React.useState(null);
+    const _setRatings = async () => {
+        let temp = await getRatings();
+        setRatings(temp);
+    };
+    useEffect(() => {
+        _setRatings();
+    }, [value]);
 
-    const navigateToPay = () => {
-        localStorage.setItem("ticket", JSON.stringify(props.data));
-        history.push('/pay');
-    }
+    let selectedRatings = [];
+    let userRating = 0;
+    let ratingId = 0;
+    if (ratings !== null) ratings.map(r => { 
+        if (r.route.id === props.data.flight.route.id) selectedRatings.push(r);
+        if (r.route.id === props.data.flight.route.id && r.user.id === user.id) 
+        { 
+            userRating = r.mark;  
+            ratingId = r.id;
+        }  
+    });
+
+    console.log(ratingId);
+
+    useEffect(() => {
+        setValue(userRating);
+    }, [userRating]);
+
+    let ratingSumm = 0;
+    selectedRatings.map(r => ratingSumm += r.mark);
+    ratingSumm /= selectedRatings.length;
+    console.log(ratingSumm);
 
     return (
         <div>
             <Card className={classes.root}>
                 <CardContent className={classes.content}>
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>
+                        Маршрут
+                    </Typography>
+                    <Typography className={classes.text} variant="h5" component="h2">
+                        №{props.data.flight.route.number}
+                    </Typography>
                     <Typography className={classes.title} color="textSecondary" gutterBottom>
                         Время отправления
                     </Typography>
@@ -104,8 +133,25 @@ export default function SimpleCard(props) {
                     <Typography variant="h5" component="h2">
                         {props.data.cost}
                     </Typography>
+                    <Typography className={classes.title} color="textSecondary" gutterBottom>Рейтинг маршрута</Typography>
+                        <Typography variant="h5" component="h2">{isNaN(ratingSumm) ? 0.00 : ratingSumm.toFixed(2)}/5.00 </Typography>
+                    { user !== null && user.userName !== "admin@mail.com" &&
+                        <Box>
+                            <Typography className={classes.title} color="textSecondary" gutterBottom>Ваша оценка</Typography>
+                            <Rating 
+                                readOnly={value === 0 ? false : true}
+                                name="unique-rating"
+                                value={value}
+                                onChange={(event, newValue) => {
+                                        setValue(newValue);
+                                        _setRatings();
+                                        insertRating({user: user, route: props.data.flight.route, mark: newValue});       
+                                }}
+                            />
+                        </Box>
+                    }
                 </CardContent>
-                { window.location.href === 'http://localhost:52646/buy' && 
+                { window.location.href === 'http://localhost:52646/buy' &&  user !== null && user.userName !== "admin@mail.com" &&
                     <CardActions>
                         <Button size="small" onClick={addToBasket}>Добавить в корзину</Button>
                     </CardActions>
@@ -117,11 +163,10 @@ export default function SimpleCard(props) {
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description">
-                <DialogTitle id="alert-dialog-title">{"Оповещение"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Уведомление"}</DialogTitle>
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
                         { user != null && <a>Данным действием вы добавляете билет в корзину. Продолжить?</a> }
-                        { user == null && <a>Билеты могут приобретать только зарегестрированные пользователи. Пожлуйста, войдите в аккаунт или зарегиструйтесь.</a>}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>

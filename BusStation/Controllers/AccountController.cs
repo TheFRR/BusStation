@@ -2,6 +2,7 @@
 using DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,18 +15,21 @@ namespace BusStation.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly ILogger<AccountController> logger;
 
         public AccountController(UserManager<User> userManager,
-        SignInManager<User> signInManager)
+        SignInManager<User> signInManager, ILogger<AccountController> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            this.logger = logger;
         }
 
         [HttpPost]
         [Route("api/Account/Register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
+            logger.LogInformation("Вызов post запроса api/Account/Register"); 
             if (ModelState.IsValid)
             {
                 User user = new User
@@ -42,6 +46,7 @@ namespace BusStation.Controllers
                     {
                         message = "Добавлен новый пользователь: " + user.UserName
                     };
+                    logger.LogInformation(msg.message);
                     return Ok(msg);
                 }
                 else
@@ -57,6 +62,7 @@ namespace BusStation.Controllers
                         error = ModelState.Values.SelectMany(e =>
                         e.Errors.Select(er => er.ErrorMessage))
                     };
+                    logger.LogError(errorMsg.message);
                     return BadRequest(errorMsg);
                 }
             }
@@ -68,7 +74,7 @@ namespace BusStation.Controllers
                     error = ModelState.Values.SelectMany(e =>
                     e.Errors.Select(er => er.ErrorMessage))
                 };
-
+                logger.LogError(errorMsg.message);
                 return BadRequest(errorMsg);
             }
         }
@@ -77,6 +83,7 @@ namespace BusStation.Controllers
         [Route("api/Account/Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
+            logger.LogInformation("Вызов post запроса api/Account/Login");
             if (ModelState.IsValid)
             {
                 var result =
@@ -88,6 +95,7 @@ namespace BusStation.Controllers
                         message = "Здравствуйте,  " +
                         model.Email + "!"
                     };
+                    logger.LogInformation(msg.message);
                     return Ok(msg);
                 }
                 else
@@ -99,6 +107,7 @@ namespace BusStation.Controllers
                         error = ModelState.Values.SelectMany(e =>
                         e.Errors.Select(er => er.ErrorMessage))
                     };
+                    logger.LogError(errorMsg.message);
                     return BadRequest(errorMsg);
                 }
             }
@@ -110,6 +119,7 @@ namespace BusStation.Controllers
                     error = ModelState.Values.SelectMany(e =>
                     e.Errors.Select(er => er.ErrorMessage))
                 };
+                logger.LogError(errorMsg.message);
                 return BadRequest(errorMsg);
             }
         }
@@ -118,11 +128,13 @@ namespace BusStation.Controllers
         [Route("api/Account/LogOff")]
         public async Task<IActionResult> LogOff()
         {
+            logger.LogInformation("Вызов post запроса api/Account/LogOff");
             await _signInManager.SignOutAsync();
             var msg = new
             {
                 message = "Вы вышли из аккаунта."
             };
+            logger.LogInformation(msg.message);
             return Ok(msg);
         }
 
@@ -130,12 +142,14 @@ namespace BusStation.Controllers
         [Route("api/Account/isAuthenticated")]
         public async Task<IActionResult> LogisAuthenticatedOff()
         {
+            logger.LogInformation("Вызов post запроса api/Account/isAuthenticated");
             User usr = await GetCurrentUserAsync();
             var message = usr == null ? "Здравствуйте, гость!" : "Здравствуйте, " + usr.UserName + "!";
             var msg = new
             {
                 message
             };
+            logger.LogInformation(msg.message);
             return Ok(msg);
         }
 
@@ -149,9 +163,18 @@ namespace BusStation.Controllers
         [Route("api/Account/currentUser")]
         public async Task<IActionResult> GetCurrentUser()
         {
+            logger.LogInformation("Вызов post запроса api/Account/currentUser");
             User user = await GetCurrentUserAsync();
-            if (user != null) return Ok(user);
-            else return BadRequest();
+            if (user != null)
+            {
+                logger.LogInformation("OK");
+                return Ok(user);
+            }
+            else
+            {
+                logger.LogError("BadRequest");
+                return BadRequest();
+            }
         }
     }
 }

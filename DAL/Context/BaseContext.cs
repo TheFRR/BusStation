@@ -16,6 +16,7 @@ namespace DAL.Context
         public DbSet<Route> Route { get; set; }
         public DbSet<Ticket> Ticket { get; set; }
         public DbSet<BoughtTicket> BoughtTicket { get; set; }
+        public DbSet<Rating> Rating { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

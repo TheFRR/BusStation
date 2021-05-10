@@ -6,6 +6,9 @@ using System.Text;
 
 namespace BLL
 {
+    /// <summary>
+    /// Класс, предоставляющий интерфейс для взаимодействия с репозиториями
+    /// </summary>
     public class UnitOfWork : IUnitOfWork
     {
         private BaseContext db;

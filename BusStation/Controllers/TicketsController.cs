@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace BusStation.Controllers
 {
+    /// <summary>
+    /// Контроллер, отвечающий за api, связанную с билетами
+    /// </summary>
     [Route("api/Tickets")]
     [ApiController]
     public class TicketsController : Controller
@@ -22,6 +25,10 @@ namespace BusStation.Controllers
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Получение списка билетов
+        /// </summary>
+        /// <returns>Список билетов</returns>
         [HttpGet]
         public Task<List<Ticket>> GetAll()
         {
@@ -29,6 +36,11 @@ namespace BusStation.Controllers
             return unitOfWork.Ticket.GetAll();
         }
 
+        /// <summary>
+        /// Получение билета по Id
+        /// </summary>
+        /// <param name="id">Id билета</param>
+        /// <returns>Билет</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTicket([FromRoute] int id)
         {
@@ -44,10 +56,15 @@ namespace BusStation.Controllers
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            logger.LogInformation("ОК");
+            logger.LogInformation($"Билет с id={id} успешно получен");
             return Ok(ticket);
         }
 
+        /// <summary>
+        /// Добавление нового билета
+        /// </summary>
+        /// <param name="ticket">Данные билета</param>
+        /// <returns>Информация о добавленном билете</returns>
         [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Ticket ticket)
@@ -58,13 +75,27 @@ namespace BusStation.Controllers
                 logger.LogError($"BadRequest: {ModelState}");
                 return BadRequest(ModelState);
             }
-            await unitOfWork.Ticket.Add(ticket);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                await unitOfWork.Ticket.Add(ticket);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation("Билет успешно добавлен");
             return CreatedAtAction("GetRoute", new { id = ticket.Id }, ticket);
         }
     
-
+        /// <summary>
+        /// Обновление билета
+        /// </summary>
+        /// <param name="id">Id билета</param>
+        /// <param name="ticket">Данные билета</param>
+        /// <returns>Информация об обновлённом билете</returns>
         [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Ticket ticket)
@@ -83,12 +114,26 @@ namespace BusStation.Controllers
             }
             item.Flight = ticket.Flight;
             item.Cost = ticket.Cost;
-            unitOfWork.Ticket.Update(item);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.Ticket.Update(item);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Билет с id={id} успешно обновлён");
             return NoContent();
         }
 
+        /// <summary>
+        /// Удаление билета
+        /// </summary>
+        /// <param name="id">Id билета</param>
+        /// <returns>Информация об удалённом билете</returns>
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
@@ -105,9 +150,18 @@ namespace BusStation.Controllers
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            unitOfWork.Ticket.Delete(item.Id);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.Ticket.Delete(item.Id);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Билет с id={id} успешно удалён");
             return NoContent();
         }
     }

@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace DAL.Interfaces
 {
+    /// <summary>
+    /// Интерфейс репозитория
+    /// </summary>
+    /// <typeparam name="T">Модель данных</typeparam>
     public interface IRepository<T> where T : class
     {
         Task<List<T>> GetAll();

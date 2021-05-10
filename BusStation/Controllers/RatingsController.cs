@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace BusStation.Controllers
 {
+    /// <summary>
+    /// Контроллер, отвечающий за api, связанную с оценками рейсов
+    /// </summary>
     [Route("api/Ratings")]
     [ApiController]
     public class RatingsController : Controller
@@ -23,6 +26,10 @@ namespace BusStation.Controllers
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Получение списка оценок
+        /// </summary>
+        /// <returns>Список оценок</returns>
         [HttpGet]
         public Task<List<Rating>> GetAll()
         {
@@ -30,6 +37,11 @@ namespace BusStation.Controllers
             return unitOfWork.Rating.GetAll();
         }
 
+        /// <summary>
+        /// Получение оценки рейса по Id
+        /// </summary>
+        /// <param name="id">Id оценки</param>
+        /// <returns>Оценки</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRoute([FromRoute] int id)
         {
@@ -45,10 +57,15 @@ namespace BusStation.Controllers
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            logger.LogInformation("ОК");
+            logger.LogInformation($"Оценка с id={id} успешно получена");
             return Ok(rating);
         }
 
+        /// <summary>
+        /// Добавление новой оценки
+        /// </summary>
+        /// <param name="rating">Данные оценки</param>
+        /// <returns>Информация о добавленной оценке</returns>
         [Authorize(Roles = "user")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Rating rating)
@@ -69,12 +86,26 @@ namespace BusStation.Controllers
             rating.Route = routeDB;
             rating.User = userDB;
 
-            await unitOfWork.Rating.Add(rating);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+            try
+            {
+                await unitOfWork.Rating.Add(rating);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation("Оценка успешно добавлена");
             return CreatedAtAction("GetRoute", new { id = rating.Id }, rating);
         }
 
+        /// <summary>
+        /// Обновление оценки по Id
+        /// </summary>
+        /// <param name="id">Id оценки</param>
+        /// <param name="rating">Данные оценки</param>
+        /// <returns>Информация об обновлённой оценке</returns>
         [Authorize(Roles = "user")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Rating rating)
@@ -92,12 +123,26 @@ namespace BusStation.Controllers
                 return NotFound();
             }
             item.Mark = rating.Mark;
-            unitOfWork.Rating.Update(item);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.Rating.Update(item);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Оценка с id={id} успешно обновлена");
             return NoContent();
         }
 
+        /// <summary>
+        /// Удаление оценки
+        /// </summary>
+        /// <param name="id">Id оценки</param>
+        /// <returns>Информация об удалённой оценке</returns>
         [Authorize(Roles = "user")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
@@ -114,9 +159,18 @@ namespace BusStation.Controllers
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            unitOfWork.Rating.Delete(item.Id);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.Rating.Delete(item.Id);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Оценка с id={id} успешно удалена");
             return NoContent();
         }
     }

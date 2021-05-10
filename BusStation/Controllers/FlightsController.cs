@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace BusStation.Controllers
 {
+    /// <summary>
+    /// Контроллер, отвечающий за api, связанную с данными о рейсах
+    /// </summary>
     [Route("api/Flights")]
     [ApiController]
     public class FlightsController : Controller
@@ -23,6 +26,10 @@ namespace BusStation.Controllers
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Получение списка рейсов
+        /// </summary>
+        /// <returns>Список рейсов</returns>
         [HttpGet]
         public Task<List<Flight>> GetAll()
         {
@@ -30,6 +37,11 @@ namespace BusStation.Controllers
             return unitOfWork.Flight.GetAll();
         }
 
+        /// <summary>
+        /// Получение рейса по Id
+        /// </summary>
+        /// <param name="id">Id рейса</param>
+        /// <returns>Рейс</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFlight([FromRoute] int id)
         {
@@ -45,10 +57,15 @@ namespace BusStation.Controllers
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            logger.LogInformation("ОК");
+            logger.LogInformation($"Рейс с id={id} успешно получен");
             return Ok(flight);
         }
 
+        /// <summary>
+        /// Добавление нового рейса и билета, связанного с этим рейсом
+        /// </summary>
+        /// <param name="flight">Модель рейса, содержащая номер маршрута вместо полноценного объекта</param>
+        /// <returns>Информация о добавленном рейса</returns>
         [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] FlightModel flight)
@@ -67,18 +84,41 @@ namespace BusStation.Controllers
             flightDB.ArrivalTime = flight.ArrivalTime;
             flightDB.SeatsNumber = flight.SeatsNumber;
             flightDB.BusySeatsNumber = flight.BusySeatsNumber;
-            await unitOfWork.Flight.Add(flightDB);
-            unitOfWork.Save();
+
+            try
+            {
+                await unitOfWork.Flight.Add(flightDB);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
 
             Ticket ticket = new Ticket();
             ticket.Flight = flightDB;
             ticket.Cost = cost;
-            await unitOfWork.Ticket.Add(ticket);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try 
+            { 
+                await unitOfWork.Ticket.Add(ticket);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation("Рейс успешно создан");
             return CreatedAtAction("GetRoute", new { id = flightDB.Id }, flightDB);
         }
 
+        /// <summary>
+        /// Обновление данных о рейсе
+        /// </summary>
+        /// <param name="id">Id рейса</param>
+        /// <param name="flight"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] FlightModel flight)
         {
@@ -98,12 +138,26 @@ namespace BusStation.Controllers
             item.DepartureTime = flight.DepartureTime;
             item.BusySeatsNumber = flight.BusySeatsNumber;
             item.SeatsNumber = flight.SeatsNumber;
-            unitOfWork.Flight.Update(item);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.Flight.Update(item);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Рейс с id={id} успешно обновлён");
             return NoContent();
         }
 
+        /// <summary>
+        /// Удаление рейса
+        /// </summary>
+        /// <param name="id">Id рейса</param>
+        /// <returns>Информация об удалённом рейса</returns>
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
@@ -120,9 +174,18 @@ namespace BusStation.Controllers
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            unitOfWork.Flight.Delete(item.Id);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.Flight.Delete(item.Id);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Рейс с id={id} успешно удалён");
             return NoContent();
         }
     }

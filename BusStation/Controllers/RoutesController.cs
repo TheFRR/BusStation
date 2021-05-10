@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace BusStation.Controllers
 {
+    /// <summary>
+    /// Контроллер, отвечающий за api, связанную с маршрутами
+    /// </summary>
     [Route("api/Routes")]
     [ApiController]
     public class RoutesController : ControllerBase
@@ -25,6 +28,10 @@ namespace BusStation.Controllers
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Получение списка маршрутов
+        /// </summary>
+        /// <returns>Список маршрутов</returns>
         [HttpGet]
         public Task<List<Route>> GetAll()
         {
@@ -32,6 +39,11 @@ namespace BusStation.Controllers
             return unitOfWork.Route.GetAll();
         }
 
+        /// <summary>
+        /// Получение маршрута по Id
+        /// </summary>
+        /// <param name="id">Id маршрута</param>
+        /// <returns>Маршрут</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetRoute([FromRoute] int id)
         {
@@ -47,10 +59,15 @@ namespace BusStation.Controllers
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            logger.LogInformation("ОК");
+            logger.LogInformation($"Маршрут с id={id} успешно получен");
             return Ok(route);
         }
 
+        /// <summary>
+        /// Создание нового маршрута
+        /// </summary>
+        /// <param name="route">Данные маршрута</param>
+        /// <returns>Информация о добавленном маршруте</returns>
         [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] Route route)
@@ -61,12 +78,27 @@ namespace BusStation.Controllers
                 logger.LogError($"BadRequest: {ModelState}");
                 return BadRequest(ModelState);
             }
-            await unitOfWork.Route.Add(route);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                await unitOfWork.Route.Add(route);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation("Маршрут успешно добавлен");
             return CreatedAtAction("GetRoute", new { id = route.Id }, route);
         }
 
+        /// <summary>
+        /// Обновление маршрута
+        /// </summary>
+        /// <param name="id">Id маршрута</param>
+        /// <param name="route">Данные маршрута</param>
+        /// <returns>Информация об обновлённом маршруте</returns>
         [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] Route route)
@@ -86,12 +118,26 @@ namespace BusStation.Controllers
             item.Number = route.Number;
             item.Arrival = route.Arrival;
             item.Departure = route.Departure;
-            unitOfWork.Route.Update(item);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.Route.Update(item);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Маршрут с id={id} успешно обновлён");
             return NoContent();
         }
 
+        /// <summary>
+        /// Удаление маршрута
+        /// </summary>
+        /// <param name="id">Id маршрута</param>
+        /// <returns>Данные об удалённом маршруте</returns>
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
@@ -108,9 +154,18 @@ namespace BusStation.Controllers
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            unitOfWork.Route.Delete(item.Id);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.Route.Delete(item.Id);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Маршрут с id={id} успешно удалён");
             return NoContent();
         }
     }

@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace BusStation.Controllers
 {
+    /// <summary>
+    /// Контроллер, отвечающий за api, связанную с общей корзиной, содержащей данные о покупках и оплате всех юзеров
+    /// </summary>
     [Route("api/BoughtTickets")]
     [ApiController]
     public class BoughtTicketsController : Controller
@@ -23,6 +26,10 @@ namespace BusStation.Controllers
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Получение списка добавленных в корзину билетов
+        /// </summary>
+        /// <returns>Список билетов</returns>
         [HttpGet]
         public Task<List<BoughtTicket>> GetAll()
         {
@@ -30,6 +37,11 @@ namespace BusStation.Controllers
             return unitOfWork.BoughtTicket.GetAll();
         }
 
+        /// <summary>
+        /// Получение билета по id
+        /// </summary>
+        /// <param name="id">Id билета</param>
+        /// <returns>Билет</returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetBoughtTicket([FromRoute] int id)
         {
@@ -44,10 +56,15 @@ namespace BusStation.Controllers
             {
                 return NotFound();
             }
-            logger.LogInformation("ОК");
+            logger.LogInformation($"Билет с id={id} успешно получен");
             return Ok(ticket);
         }
 
+        /// <summary>
+        /// Добавление нового билета
+        /// </summary>
+        /// <param name="ticket">Данные билета</param>
+        /// <returns>Информация о добавленном билете</returns>
         [Authorize(Roles = "user")]
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] BoughtTicket ticket)
@@ -74,13 +91,26 @@ namespace BusStation.Controllers
             ticket.Ticket.Flight = flightDB;
             ticket.Ticket.Flight.Route = routeDB;
 
-            await unitOfWork.BoughtTicket.Add(ticket);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+            try
+            {
+                await unitOfWork.BoughtTicket.Add(ticket);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation("Билет успешно добавлен в корзину");
             return CreatedAtAction("GetRoute", new { id = ticket.Id }, ticket);
         }
 
-
+        /// <summary>
+        /// Обновление данных об оплате билета
+        /// </summary>
+        /// <param name="id">Id билета</param>
+        /// <param name="ticket">Данные билета</param>
+        /// <returns>Информация о обновлённом билете</returns>
         [Authorize(Roles = "user")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update([FromRoute] int id, [FromBody] BoughtTicket ticket)
@@ -98,12 +128,27 @@ namespace BusStation.Controllers
                 return NotFound();
             }
             item.IsPaid = ticket.IsPaid;
-            unitOfWork.BoughtTicket.Update(item);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.BoughtTicket.Update(item);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Билет с id={id} успешно обновлён");
             return NoContent();
         }
 
+
+        /// <summary>
+        /// Удаление билета
+        /// </summary>
+        /// <param name="id">Id билета</param>
+        /// <returns>Информация об удалённом билете</returns>
         [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute] int id)
@@ -120,9 +165,18 @@ namespace BusStation.Controllers
                 logger.LogError("NotFound");
                 return NotFound();
             }
-            unitOfWork.BoughtTicket.Delete(item.Id);
-            unitOfWork.Save();
-            logger.LogInformation("ОК");
+
+            try
+            {
+                unitOfWork.BoughtTicket.Delete(item.Id);
+                unitOfWork.Save();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e.Message, e);
+            }
+
+            logger.LogInformation($"Билет с id={id} успешно удалён");
             return NoContent();
         }
     }

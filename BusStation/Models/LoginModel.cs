@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace BusStation.Models
 {
+    /// <summary>
+    /// Модель для авторизации пользователя
+    /// </summary>
     public class LoginModel
     {
         [Required]

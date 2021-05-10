@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace BusStation.Controllers
 {
+    /// <summary>
+    /// Контроллер, отвечающий за api, связанную с авторизацией и регистрацией пользователя
+    /// </summary>
     [Produces("application/json")]
     public class AccountController : Controller
     {
@@ -25,6 +28,11 @@ namespace BusStation.Controllers
             this.logger = logger;
         }
 
+        /// <summary>
+        /// Метод регистрации нового пользователя
+        /// </summary>
+        /// <param name="model">Содержит данные нового пользователя</param>
+        /// <returns>Сообщение о результате регистрации</returns>
         [HttpPost]
         [Route("api/Account/Register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
@@ -79,6 +87,11 @@ namespace BusStation.Controllers
             }
         }
 
+        /// <summary>
+        /// Метод авторизации пользователя
+        /// </summary>
+        /// <param name="model">Содержит данные для входа</param>
+        /// <returns>Сообщение о результате авторизации</returns>
         [HttpPost]
         [Route("api/Account/Login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
@@ -124,6 +137,10 @@ namespace BusStation.Controllers
             }
         }
 
+        /// <summary>
+        /// Метод выхода из аккаунта
+        /// </summary>
+        /// <returns>Сообщение о выходе из аккаунта</returns>
         [HttpPost]
         [Route("api/Account/LogOff")]
         public async Task<IActionResult> LogOff()
@@ -138,9 +155,13 @@ namespace BusStation.Controllers
             return Ok(msg);
         }
 
+        /// <summary>
+        /// Метод формирования сообщение для текущего пользователя
+        /// </summary>
+        /// <returns>Привественное сообщение для пользователя</returns>
         [HttpPost]
         [Route("api/Account/isAuthenticated")]
-        public async Task<IActionResult> LogisAuthenticatedOff()
+        public async Task<IActionResult> isAuthenticatedOff()
         {
             logger.LogInformation("Вызов post запроса api/Account/isAuthenticated");
             User usr = await GetCurrentUserAsync();
@@ -159,6 +180,10 @@ namespace BusStation.Controllers
             return user;
         }
 
+        /// <summary>
+        /// Метод получения текущего авторизованного пользователя
+        /// </summary>
+        /// <returns>Авторизованный пользователь, если такой есть</returns>
         [HttpPost]
         [Route("api/Account/currentUser")]
         public async Task<IActionResult> GetCurrentUser()

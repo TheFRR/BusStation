@@ -6,6 +6,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BusStation.Models
 {
+    /// <summary>
+    /// Модель для регистрации пользователя
+    /// </summary>
     public class RegisterModel
     {
         [Required]

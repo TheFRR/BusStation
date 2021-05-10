@@ -8,6 +8,10 @@ namespace DAL.Context
 {
     public static class BusStationInitializer
     {
+        /// <summary>
+        /// Инициализатор, отвечающий за наполенение БД контентом, когда данный контекст используется для доступа к базе данных в первый раз
+        /// </summary>
+        /// <param name="baseContext">Контекст БД</param>
         public static void Initialize(BaseContext baseContext)
         {
             baseContext.Database.EnsureCreated();
